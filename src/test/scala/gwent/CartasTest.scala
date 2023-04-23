@@ -40,5 +40,19 @@ class CartasTest extends munit.FunSuite {
         assert(!carta1.equals(carta5))
     }
 
+    test("hashCode"){
+        assert(carta1.hashCode()!=carta2.hashCode())
+        assert(carta2.hashCode()!=carta3.hashCode())
+        assert(carta3.hashCode()!=carta4.hashCode())
+        assert(carta4.hashCode()!=carta5.hashCode())
+        assert(carta5.hashCode()!=carta1.hashCode())
+        
+        assert(carta1.hashCode() == (new Cartas("carta1", "Clima")).hashCode())
+        assert(carta2.hashCode() == (new Cartas("carta2", "Unidad")).hashCode())
+        assert(carta3.hashCode() == (new Cartas("carta3", "Unidad")).hashCode())
+        assert(carta4.hashCode() == (new Cartas("carta4", "Clima")).hashCode())
+        assert(carta5.hashCode() == (new Cartas("carta5", "Unidad")).hashCode())
+    }
+
 
 }
