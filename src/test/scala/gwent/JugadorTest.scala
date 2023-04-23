@@ -22,5 +22,19 @@ class JugadorTest extends munit.FunSuite{
     assert(!jugador5.equals(jugador2))
     
   }
+
+  test("hashCode") {
+    assert(jugador1.hashCode() != jugador2.hashCode())
+    assert(jugador2.hashCode() != jugador3.hashCode())
+    assert(jugador3.hashCode() != jugador4.hashCode())
+    assert(jugador4.hashCode() != jugador5.hashCode())
+    assert(jugador5.hashCode() != jugador1.hashCode())
+
+    assert(jugador1.hashCode() == (new Jugador("Constanza", "bobaboba", 100, Set[Cartas](), Set[Cartas]())).hashCode())
+    assert(jugador2.hashCode() == (new Jugador("Emilio", "industrial", 15, Set[Cartas](), Set[Cartas]())).hashCode())
+    assert(jugador3.hashCode() == (new Jugador("Diego", "blablabla", 22, Set[Cartas](), Set[Cartas]())).hashCode())
+    assert(jugador4.hashCode() == (new Jugador("Agustín", "papitas", 20, Set[Cartas](), Set[Cartas]())).hashCode())
+    assert(jugador5.hashCode() == (new Jugador("Cucha", "miau", 95, Set[Cartas](), Set[Cartas]())).hashCode())
+  }
     
 }
