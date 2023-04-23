@@ -1,5 +1,6 @@
 package cl.uchile.dcc
 package gwent
+import java.util.Objects
 
 /** It's a class that represents a card of the game
  *
@@ -10,9 +11,9 @@ package gwent
 
 //Cards get a name and a classification
 class Cartas(private val nombre: String, private val clasificacion: String) { //The classification can be "Unity" or "Weather"
-  
-  
-  
+
+
+
   //Overriding the function hashCode for Cartas
   override def hashCode(): Int = {
     Objects.hash(classOf[Cartas], nombre, clasificacion)
