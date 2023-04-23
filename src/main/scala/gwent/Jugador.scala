@@ -1,5 +1,6 @@
 package cl.uchile.dcc
 package gwent
+import java.util.Objects
 
 /** It's a class that represents a player in the game
  *
