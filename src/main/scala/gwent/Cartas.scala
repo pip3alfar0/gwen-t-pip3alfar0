@@ -1,7 +1,7 @@
 package cl.uchile.dcc
 package gwent
 
-/**
+/** It's a class that represents a card of the game
  *
  * @param nombre
  * @param clasificacion
@@ -13,6 +13,12 @@ class Cartas(private val nombre: String, private val clasificacion: String) { //
   
   
   
+  //Overriding the function hashCode for Cartas
+  override def hashCode(): Int = {
+    Objects.hash(classOf[Cartas], nombre, clasificacion)
+  }
+
+  //Overriding the function equals for Cartas
   override def equals(obj: Any): Boolean = {
     if (obj.isInstanceOf[Cartas]) {
       val other = obj.asInstanceOf[Cartas]
