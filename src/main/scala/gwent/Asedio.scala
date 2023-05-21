@@ -3,7 +3,7 @@ package gwent
 
 /** Class representing a siege combat unit card in the game.
  *
- * A `CloseCombatCard` is a type of [[AbstractCartaUnidad]].
+ * A `SiegeCombatCard` is a type of [[AbstractCartaUnidad]].
  * These cards represent troops that engage in close combat on the battlefield.
  * As per the game's rules, these cards can only be placed in the close combat zone.
  *
