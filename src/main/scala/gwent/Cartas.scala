@@ -27,5 +27,7 @@ trait Cartas {
    * This is an immutable property.
    */
   val descripcion: String
-  
+
+  def Jugar(j: Jugador): Unit
+
 }
