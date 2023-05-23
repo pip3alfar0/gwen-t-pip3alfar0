@@ -19,6 +19,10 @@ package gwent
 
 class Asedio(nombre: String, descripcion: String, fuerza: Int) extends AbstractCartaUnidad(nombre, descripcion, fuerza) {
 
+  override def Jugar(j: Jugador): Unit = {
+
+  }
+
   override def equals(obj: Any): Boolean = obj match {
     case other: Asedio =>
       super.equals(other)
