@@ -18,6 +18,15 @@ import java.util.Objects
 
 class CartaClima(val nombre: String, val descripcion: String) extends Cartas {
 
+  // recibe una carta y un tablero, y agrega en la zona del tablero la carta
+  def add(): Unit = {
+
+  }
+
+  override def Jugar(j: Jugador): Unit = {
+    
+  }
+
   override def hashCode(): Int = {
     Objects.hash(classOf[CartaClima], nombre, descripcion)
   }
