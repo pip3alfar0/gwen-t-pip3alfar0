@@ -1,5 +1,8 @@
 package cl.uchile.dcc
-package gwent
+package gwent.Cartas
+
+import gwent.Jugador.Jugador
+import gwent.Tablero.Tablero
 
 /** It's a trait that represents a card of the game.
  *
@@ -28,10 +31,13 @@ trait Cartas {
    */
   val descripcion: String
 
-  /**
+  /** Player play a card and added to the card's section.
    * 
-   * @param j
+   * @param j The player.
+   * @param t The board.
+   *
+   * @author Felipe Alfaro
    */
-  def Jugar(j: Jugador): Unit
+  def Jugar(j: Jugador, t: Tablero): Unit
 
 }
