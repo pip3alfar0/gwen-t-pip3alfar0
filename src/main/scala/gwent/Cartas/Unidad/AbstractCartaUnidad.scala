@@ -1,6 +1,7 @@
 package cl.uchile.dcc
-package gwent
-import cl.uchile.dcc.gwent.Cartas.Cartas
+package gwent.Cartas.Unidad
+
+import gwent.Cartas.Cartas
 
 import java.util.Objects
 
@@ -46,46 +47,3 @@ abstract class AbstractCartaUnidad protected(val nombre: String, val descripcion
   }
   
 }
-
-
-/*
-//Overriding the function hashCode for CartaUnidad
-override def hashCode(): Int = {
-  Objects.hash(classOf[CartaUnidad], nombre, descripcion, fuerza)
-}
-
-/*
-//Overriding the function canEqual for CartaUnidad
-override def canEqual(that: Any): Boolean = {
-  that.isInstanceOf[CartaUnidad]
-}
-*/
-
-//Overriding the function equals for CartaUnidad
-override def equals(obj: Any): Boolean = {
-  if (obj.isInstanceOf[CartaUnidad]) {
-    val other = obj.asInstanceOf[CartaUnidad]
-    (this eq other) || nombre == other.nombre && descripcion == other.descripcion && fuerza == other.fuerza
-  } else {
-    false
-  }
-}
-
-
-
-
-//Overriding the function canEqual for AbstractCartaUnidad
-override def canEqual(that: Any): Boolean = {
-  that.isInstanceOf[AbstractCartaUnidad]
-}
-
-//Overriding the function equals for AbstractCartaUnidad
-override def equals(that: Any): Boolean = {
-  if (canEqual(that)) {
-    val other = that.asInstanceOf[AbstractCartaUnidad]
-    (this eq other) || nombre == other.nombre && descripcion == other.descripcion && fuerza == other.fuerza
-  } else {
-    false
-  }
-}
-*/
