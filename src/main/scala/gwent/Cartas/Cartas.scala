@@ -28,6 +28,10 @@ trait Cartas {
    */
   val descripcion: String
 
+  /**
+   * 
+   * @param j
+   */
   def Jugar(j: Jugador): Unit
 
 }

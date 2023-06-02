@@ -1,6 +1,8 @@
 package cl.uchile.dcc
 package gwent
 
+import gwent.Cartas.Unidad.AbstractCartaUnidad
+
 /** Class representing a ranged combat unit card in the game.
  *
  * A `RangedCombatCard` is a type of [[AbstractCartaUnidad]].
@@ -13,7 +15,6 @@ package gwent
  * @param descripcion The description of the card.
  * @param fuerza The initial power value of the card, which also corresponds to the
  *              strength of the troop it represents.
- *
  * @author Felipe Alfaro
  */
 

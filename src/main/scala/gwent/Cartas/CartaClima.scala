@@ -1,5 +1,7 @@
 package cl.uchile.dcc
 package gwent
+import cl.uchile.dcc.gwent.Cartas.Cartas
+
 import java.util.Objects
 
 /** It's a class representing a weather card in the game.
@@ -23,6 +25,10 @@ class CartaClima(val nombre: String, val descripcion: String) extends Cartas {
 
   }
 
+  /**
+   *
+   * @param j
+   */
   override def Jugar(j: Jugador): Unit = {
     
   }

@@ -1,5 +1,7 @@
 package cl.uchile.dcc
 package gwent
+import cl.uchile.dcc.gwent.Cartas.Cartas
+
 import java.util.Objects
 
 /** It's a class that represents a player in the game.
@@ -40,6 +42,8 @@ class Jugador(val nombre: String, val seccionTablero: String, val contadorGemas:
      * cards are the same cards with the played card.
      *
      * This function modifies the deck of cards and the hand of cards when the card is drawn.
+     * 
+     * @param card The played card.
      *
      * @example
      * {{{

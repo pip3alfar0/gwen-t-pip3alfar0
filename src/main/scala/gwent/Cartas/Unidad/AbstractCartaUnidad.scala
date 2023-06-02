@@ -1,5 +1,7 @@
 package cl.uchile.dcc
 package gwent
+import cl.uchile.dcc.gwent.Cartas.Cartas
+
 import java.util.Objects
 
 /** It's an abstract class representing a unity card in the game.
