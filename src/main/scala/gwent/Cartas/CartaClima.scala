@@ -1,6 +1,10 @@
 package cl.uchile.dcc
-package gwent
-import cl.uchile.dcc.gwent.Cartas.Cartas
+package gwent.Cartas
+
+import gwent.Cartas.Cartas
+
+import gwent.Jugador.Jugador
+import gwent.Tablero.Tablero
 
 import java.util.Objects
 
@@ -19,18 +23,19 @@ import java.util.Objects
  * */
 
 class CartaClima(val nombre: String, val descripcion: String) extends Cartas {
-
-  // recibe una carta y un tablero, y agrega en la zona del tablero la carta
-  def add(): Unit = {
-
-  }
-
-  /**
+  
+  /** Player play a weather card and added to the weather zone.
    *
-   * @param j
+   * Play a weather card and added to the weather zone is defined as the original list of weather cards in that zone
+   * plus the played weather card.
+   *
+   * This function modifies the list of weather cards that are in the weather zone.
+   *
+   * @param j The player.
+   * @param t The player's board.
    */
-  override def Jugar(j: Jugador): Unit = {
-    
+  override def Jugar(j: Jugador, t: Tablero): Unit = {
+    t.jugarClima(j, this)
   }
 
   override def hashCode(): Int = {
