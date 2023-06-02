@@ -1,6 +1,12 @@
 package cl.uchile.dcc
 package gwent
 
+import gwent.Cartas.{CartaClima, Cartas}
+
+import cl.uchile.dcc.gwent.Cartas.Unidad.{Asedio, CuerpoACuerpo, Distancia}
+import cl.uchile.dcc.gwent.Jugador.Jugador
+import cl.uchile.dcc.gwent.Tablero.SeccionTablero
+
 class CartasTest extends munit.FunSuite {
     val nombre1: String = "carta1"
     val nombre2: String = "carta2"
@@ -199,8 +205,8 @@ class CartasTest extends munit.FunSuite {
     }
 
     test("Jogador") {
-        assert(!carta1.equals(new Jugador("Simba", "miau miau", 90, List[Cartas](), List[Cartas]())))
-        assert(!carta2.equals(new Jugador("Kitty", "miau miau miau", 100, List[Cartas](), List[Cartas]())))
+        assert(!carta1.equals(new Jugador("Simba", new SeccionTablero(), 90, List[Cartas](), List[Cartas]())))
+        assert(!carta2.equals(new Jugador("Kitty", new SeccionTablero(), 100, List[Cartas](), List[Cartas]())))
     }
 
 }
