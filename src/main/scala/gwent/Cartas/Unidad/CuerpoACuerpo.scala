@@ -1,7 +1,10 @@
 package cl.uchile.dcc
-package gwent
+package gwent.Cartas.Unidad
 
 import gwent.Cartas.Unidad.AbstractCartaUnidad
+
+import gwent.Jugador.Jugador
+import gwent.Tablero.Tablero
 
 /** Class representing a close combat unit card in the game.
  *
@@ -20,7 +23,17 @@ import gwent.Cartas.Unidad.AbstractCartaUnidad
 
 class CuerpoACuerpo(nombre: String, descripcion: String, fuerza: Int) extends AbstractCartaUnidad(nombre, descripcion, fuerza) {
 
-  override def Jugar(j: Jugador): Unit = {
+  /** Play a close combat card and added to the close combat card zone.
+   *
+   * Play a close combat card and added to the close combat card zone is defined as the original list of close combat cards in that zone plus the played close combat card.
+   *
+   * This function modifies the list of close combat cards that are in the close combat zone.
+   *
+   * @param j The player.
+   * @param t The player's board.
+   */
+  override def Jugar(j: Jugador, t: Tablero): Unit = {
+    j.seccionTablero.jugarCuerpoACuerpo(this)
   }
   
   override def equals(obj: Any): Boolean = obj match {

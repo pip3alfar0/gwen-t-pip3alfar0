@@ -1,7 +1,10 @@
 package cl.uchile.dcc
-package gwent
+package gwent.Cartas.Unidad
 
 import gwent.Cartas.Unidad.AbstractCartaUnidad
+
+import gwent.Jugador.Jugador
+import gwent.Tablero.Tablero
 
 /** Class representing a siege combat unit card in the game.
  *
@@ -20,8 +23,17 @@ import gwent.Cartas.Unidad.AbstractCartaUnidad
 
 class Asedio(nombre: String, descripcion: String, fuerza: Int) extends AbstractCartaUnidad(nombre, descripcion, fuerza) {
 
-  override def Jugar(j: Jugador): Unit = {
-
+  /** Play a siege combat card and added to the siege combat card zone.
+   *
+   * Play a siege combat card and added to the siege combat card zone is defined as the original list of siege combat cards in that zone plus the played siege combat card.
+   *
+   * This function modifies the list of siege combat cards that are in the siege combat zone.
+   *
+   * @param j The player.
+   * @param t The player's board.
+   */
+  override def Jugar(j: Jugador, t: Tablero): Unit = {
+    j.seccionTablero.jugarAsedio(this)
   }
 
   override def equals(obj: Any): Boolean = obj match {
