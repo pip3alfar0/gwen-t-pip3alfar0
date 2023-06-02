@@ -1,7 +1,14 @@
 package cl.uchile.dcc
 package gwent
 
-class JugadorTest extends munit.FunSuite{
+import gwent.Cartas.{CartaClima, Cartas}
+
+import cl.uchile.dcc.gwent.Cartas.Unidad.{Asedio, CuerpoACuerpo, Distancia}
+import cl.uchile.dcc.gwent.Jugador.Jugador
+import cl.uchile.dcc.gwent.Tablero.SeccionTablero
+
+class JugadorTest extends munit.FunSuite {
+
   val nombre1: String = "Constanza"
   val nombre2: String = "Emilio"
   val nombre3: String = "Diego"
@@ -11,15 +18,16 @@ class JugadorTest extends munit.FunSuite{
   val nombre7: String = "Simón"
   val nombre8: String = "Aki"
 
-  val seccionTablero1: String = "1"
-  val seccionTablero2: String = "2"
-
   val contadorGemas1: Int = 100
   val contadorGemas2: Int = 15
   val contadorGemas3: Int = 22
   val contadorGemas4: Int = 20
   val contadorGemas5: Int = 95
-  
+
+  var seccionTablero = new SeccionTablero()
+  var seccionTablero2: SeccionTablero = _
+  var seccionTablero3: SeccionTablero = _
+
   var jugador1: Jugador = _  // null
   var jugador2: Jugador = _
   var jugador3: Jugador = _
@@ -56,15 +64,18 @@ class JugadorTest extends munit.FunSuite{
     carta10 = new CuerpoACuerpo("carta10", "Cuerpo a Cuerpo", 60)
     carta11 = new Asedio("carta11", "Asedio", 40)
     carta12 = new CartaClima("carta12", "c")
-    
-    jugador1 = new Jugador("Constanza", "1", 100, List[Cartas](carta1), List[Cartas](carta3, carta4))
-    jugador2 = new Jugador("Emilio", "2", 15, List[Cartas](carta4, carta6), List[Cartas](carta7, carta12))
-    jugador3 = new Jugador("Diego", "1", 22, List[Cartas](carta1, carta2, carta5), List[Cartas]())
-    jugador4 = new Jugador("Agustín", "2", 20, List[Cartas](carta8, carta6), List[Cartas](carta2))
-    jugador5 = new Jugador("Cucha", "1", 95, List[Cartas](carta4, carta5, carta2, carta7), List[Cartas](carta1, carta3, carta6, carta10))
-    jugador6 = new Jugador("Blanquita", "2", 95, List[Cartas](carta9, carta10), List[Cartas](carta11, carta12))
-    jugador7 = new Jugador("Simón", "1", 95, List[Cartas](), List[Cartas](carta10, carta7))
-    jugador8 = new Jugador("Aki", "2", 95, List[Cartas](carta11, carta9, carta6, carta3), List[Cartas](carta2, carta12, carta8))
+
+    seccionTablero2 = new SeccionTablero(List(carta8), List(), List(carta10))
+    seccionTablero3 = new SeccionTablero(List(), List(carta1), List())
+
+    jugador1 = new Jugador("Constanza", seccionTablero, 100, List[Cartas](carta1), List[Cartas](carta3, carta4))
+    jugador2 = new Jugador("Emilio", seccionTablero, 15, List[Cartas](carta4, carta6), List[Cartas](carta7, carta12))
+    jugador3 = new Jugador("Diego", seccionTablero, 22, List[Cartas](carta1, carta2, carta5), List[Cartas]())
+    jugador4 = new Jugador("Agustín", seccionTablero, 20, List[Cartas](carta8, carta6), List[Cartas](carta2))
+    jugador5 = new Jugador("Cucha", seccionTablero, 95, List[Cartas](carta4, carta5, carta2, carta7), List[Cartas](carta1, carta3, carta6, carta10))
+    jugador6 = new Jugador("Blanquita", seccionTablero, 95, List[Cartas](carta9, carta10), List[Cartas](carta11, carta12))
+    jugador7 = new Jugador("Simón", seccionTablero, 95, List[Cartas](), List[Cartas](carta10, carta7))
+    jugador8 = new Jugador("Aki", seccionTablero, 95, List[Cartas](carta11, carta9, carta6, carta3), List[Cartas](carta2, carta12, carta8))
   }
 
   test("Equals"){
@@ -86,23 +97,23 @@ class JugadorTest extends munit.FunSuite{
     assert(!jugador7.equals(jugador8))
     assert(!jugador8.equals(jugador1))
     
-    assertEquals(jugador1, new Jugador("Constanza", "1", 100, List[Cartas](carta1), List[Cartas](carta3, carta4)))
-    assertEquals(jugador2, new Jugador("Emilio", "2", 15, List[Cartas](carta4, carta6), List[Cartas](carta7, carta12)))
-    assertEquals(jugador3, new Jugador("Diego", "1", 22, List[Cartas](carta1, carta2, carta5), List[Cartas]()))
-    assertEquals(jugador4, new Jugador("Agustín", "2", 20, List[Cartas](carta8, carta6), List[Cartas](carta2)))
-    assertEquals(jugador5, new Jugador("Cucha", "1", 95, List[Cartas](carta4, carta5, carta2, carta7), List[Cartas](carta1, carta3, carta6, carta10)))
-    assertEquals(jugador6, new Jugador("Blanquita", "2", 95, List[Cartas](carta9, carta10), List[Cartas](carta11, carta12)))
-    assertEquals(jugador7, new Jugador("Simón", "1", 95, List[Cartas](), List[Cartas](carta10, carta7)))
-    assertEquals(jugador8, new Jugador("Aki", "2", 95, List[Cartas](carta11, carta9, carta6, carta3), List[Cartas](carta2, carta12, carta8)))
+    assertEquals(jugador1, new Jugador("Constanza", seccionTablero, 100, List[Cartas](carta1), List[Cartas](carta3, carta4)))
+    assertEquals(jugador2, new Jugador("Emilio", seccionTablero, 15, List[Cartas](carta4, carta6), List[Cartas](carta7, carta12)))
+    assertEquals(jugador3, new Jugador("Diego", seccionTablero, 22, List[Cartas](carta1, carta2, carta5), List[Cartas]()))
+    assertEquals(jugador4, new Jugador("Agustín", seccionTablero, 20, List[Cartas](carta8, carta6), List[Cartas](carta2)))
+    assertEquals(jugador5, new Jugador("Cucha", seccionTablero, 95, List[Cartas](carta4, carta5, carta2, carta7), List[Cartas](carta1, carta3, carta6, carta10)))
+    assertEquals(jugador6, new Jugador("Blanquita", seccionTablero, 95, List[Cartas](carta9, carta10), List[Cartas](carta11, carta12)))
+    assertEquals(jugador7, new Jugador("Simón", seccionTablero, 95, List[Cartas](), List[Cartas](carta10, carta7)))
+    assertEquals(jugador8, new Jugador("Aki", seccionTablero, 95, List[Cartas](carta11, carta9, carta6, carta3), List[Cartas](carta2, carta12, carta8)))
     
-    assert(!jugador1.equals(new Jugador("Emilio", "2", 15, List[Cartas](carta4, carta6), List[Cartas](carta7, carta12))))
-    assert(!jugador2.equals(new Jugador("Diego", "1", 22, List[Cartas](carta1, carta2, carta5), List[Cartas]())))
-    assert(!jugador3.equals(new Jugador("Agustín", "2", 20, List[Cartas](carta8, carta6), List[Cartas](carta2))))
-    assert(!jugador4.equals(new Jugador("Cucha", "1", 95, List[Cartas](carta4, carta5, carta2, carta7), List[Cartas](carta1, carta3, carta6, carta10))))
-    assert(!jugador5.equals(new Jugador("Blanquita", "2", 95, List[Cartas](carta9, carta10), List[Cartas](carta11, carta12))))
-    assert(!jugador6.equals(new Jugador("Simón", "1", 95, List[Cartas](), List[Cartas](carta10, carta7))))
-    assert(!jugador7.equals(new Jugador("Aki", "2", 95, List[Cartas](carta11, carta9, carta6, carta3), List[Cartas](carta2, carta12, carta8))))
-    assert(!jugador8.equals(new Jugador("Constanza", "1", 100, List[Cartas](carta1), List[Cartas](carta3, carta4))))
+    assert(!jugador1.equals(new Jugador("Emilio", seccionTablero, 15, List[Cartas](carta4, carta6), List[Cartas](carta7, carta12))))
+    assert(!jugador2.equals(new Jugador("Diego", seccionTablero, 22, List[Cartas](carta1, carta2, carta5), List[Cartas]())))
+    assert(!jugador3.equals(new Jugador("Agustín", seccionTablero, 20, List[Cartas](carta8, carta6), List[Cartas](carta2))))
+    assert(!jugador4.equals(new Jugador("Cucha", seccionTablero, 95, List[Cartas](carta4, carta5, carta2, carta7), List[Cartas](carta1, carta3, carta6, carta10))))
+    assert(!jugador5.equals(new Jugador("Blanquita", seccionTablero, 95, List[Cartas](carta9, carta10), List[Cartas](carta11, carta12))))
+    assert(!jugador6.equals(new Jugador("Simón", seccionTablero, 95, List[Cartas](), List[Cartas](carta10, carta7))))
+    assert(!jugador7.equals(new Jugador("Aki", seccionTablero, 95, List[Cartas](carta11, carta9, carta6, carta3), List[Cartas](carta2, carta12, carta8))))
+    assert(!jugador8.equals(new Jugador("Constanza", seccionTablero, 100, List[Cartas](carta1), List[Cartas](carta3, carta4))))
   }
 
   test("hashCode") {
@@ -115,14 +126,14 @@ class JugadorTest extends munit.FunSuite{
     assert(jugador7.hashCode() != jugador8.hashCode())
     assert(jugador8.hashCode() != jugador1.hashCode())
 
-    assert(jugador1.hashCode() == (new Jugador("Constanza", "1", 100, List[Cartas](carta1), List[Cartas](carta3, carta4))).hashCode())
-    assert(jugador2.hashCode() == (new Jugador("Emilio", "2", 15, List[Cartas](carta4, carta6), List[Cartas](carta7, carta12))).hashCode())
-    assert(jugador3.hashCode() == (new Jugador("Diego", "1", 22, List[Cartas](carta1, carta2, carta5), List[Cartas]())).hashCode())
-    assert(jugador4.hashCode() == (new Jugador("Agustín", "2", 20, List[Cartas](carta8, carta6), List[Cartas](carta2))).hashCode())
-    assert(jugador5.hashCode() == (new Jugador("Cucha", "1", 95, List[Cartas](carta4, carta5, carta2, carta7), List[Cartas](carta1, carta3, carta6, carta10))).hashCode())
-    assert(jugador6.hashCode() == (new Jugador("Blanquita", "2", 95, List[Cartas](carta9, carta10), List[Cartas](carta11, carta12))).hashCode())
-    assert(jugador7.hashCode() == (new Jugador("Simón", "1", 95, List[Cartas](), List[Cartas](carta10, carta7))).hashCode())
-    assert(jugador8.hashCode() == (new Jugador("Aki", "2", 95, List[Cartas](carta11, carta9, carta6, carta3), List[Cartas](carta2, carta12, carta8))).hashCode())
+    assert(jugador1.hashCode() == (new Jugador("Constanza", seccionTablero, 100, List[Cartas](carta1), List[Cartas](carta3, carta4))).hashCode())
+    assert(jugador2.hashCode() == (new Jugador("Emilio", seccionTablero, 15, List[Cartas](carta4, carta6), List[Cartas](carta7, carta12))).hashCode())
+    assert(jugador3.hashCode() == (new Jugador("Diego", seccionTablero, 22, List[Cartas](carta1, carta2, carta5), List[Cartas]())).hashCode())
+    assert(jugador4.hashCode() == (new Jugador("Agustín", seccionTablero, 20, List[Cartas](carta8, carta6), List[Cartas](carta2))).hashCode())
+    assert(jugador5.hashCode() == (new Jugador("Cucha", seccionTablero, 95, List[Cartas](carta4, carta5, carta2, carta7), List[Cartas](carta1, carta3, carta6, carta10))).hashCode())
+    assert(jugador6.hashCode() == (new Jugador("Blanquita", seccionTablero, 95, List[Cartas](carta9, carta10), List[Cartas](carta11, carta12))).hashCode())
+    assert(jugador7.hashCode() == (new Jugador("Simón", seccionTablero, 95, List[Cartas](), List[Cartas](carta10, carta7))).hashCode())
+    assert(jugador8.hashCode() == (new Jugador("Aki", seccionTablero, 95, List[Cartas](carta11, carta9, carta6, carta3), List[Cartas](carta2, carta12, carta8))).hashCode())
   }
 
   test("Nombre") {
@@ -145,26 +156,6 @@ class JugadorTest extends munit.FunSuite{
     assert(!jugador8.nombre.equals(nombre1))
   }
 
-  test("Seccion del tablero") {
-    assertEquals(jugador1.seccionTablero, seccionTablero1)
-    assertEquals(jugador2.seccionTablero, seccionTablero2)
-    assertEquals(jugador3.seccionTablero, seccionTablero1)
-    assertEquals(jugador4.seccionTablero, seccionTablero2)
-    assertEquals(jugador5.seccionTablero, seccionTablero1)
-    assertEquals(jugador6.seccionTablero, seccionTablero2)
-    assertEquals(jugador7.seccionTablero, seccionTablero1)
-    assertEquals(jugador8.seccionTablero, seccionTablero2)
-
-    assert(!jugador1.seccionTablero.equals(seccionTablero2))
-    assert(!jugador2.seccionTablero.equals(seccionTablero1))
-    assert(!jugador3.seccionTablero.equals(seccionTablero2))
-    assert(!jugador4.seccionTablero.equals(seccionTablero1))
-    assert(!jugador5.seccionTablero.equals(seccionTablero2))
-    assert(!jugador6.seccionTablero.equals(seccionTablero1))
-    assert(!jugador7.seccionTablero.equals(seccionTablero2))
-    assert(!jugador8.seccionTablero.equals(seccionTablero1))
-  }
-
   test("Contador de Gemas") {
     assertEquals(jugador1.contadorGemas, contadorGemas1)
     assertEquals(jugador2.contadorGemas, contadorGemas2)
@@ -184,51 +175,87 @@ class JugadorTest extends munit.FunSuite{
     assert(!jugador7.contadorGemas.equals(contadorGemas4))
     assert(!jugador8.contadorGemas.equals(contadorGemas1))
   }
-  
-  /*
+
   test("Mazo") {
-    //assertEquals(jugador1.mazo, List[Cartas](carta1))
+    assertEquals(jugador1.mazo, List[Cartas](carta1))
+    assertEquals(jugador2.mazo, List[Cartas](carta4, carta6))
+    assertEquals(jugador3.mazo, List[Cartas](carta1, carta2, carta5))
+    assertEquals(jugador4.mazo, List[Cartas](carta8, carta6))
+    assertEquals(jugador5.mazo, List[Cartas](carta4, carta5, carta2, carta7))
+    assertEquals(jugador6.mazo, List[Cartas](carta9, carta10))
+    assertEquals(jugador7.mazo, List[Cartas]())
+    assertEquals(jugador8.mazo, List[Cartas](carta11, carta9, carta6, carta3))
+
+    assert(!jugador1.mazo.equals(List[Cartas](carta3)))
+    assert(!jugador2.mazo.equals(List[Cartas](carta6, carta4)))
+    assert(!jugador3.mazo.equals(List[Cartas](carta5, carta2, carta1)))
+    assert(!jugador4.mazo.equals(List[Cartas](carta4, carta7, carta9, carta11, carta12)))
+    assert(!jugador5.mazo.equals(List[Cartas](carta6, carta9)))
+    assert(!jugador6.mazo.equals(List[Cartas](carta5)))
+    assert(!jugador7.mazo.equals(List[Cartas](carta3, carta2, carta5)))
+    assert(!jugador8.mazo.equals(List[Cartas](carta10, carta9, carta8)))
   }
 
   test("Mano") {
-    //assertEquals(jugador1.mano, List[Cartas](carta3, carta4))
+    assertEquals(jugador1.manoCartas, List[Cartas](carta3, carta4))
+    assertEquals(jugador2.manoCartas, List[Cartas](carta7, carta12))
+    assertEquals(jugador3.manoCartas, List[Cartas]())
+    assertEquals(jugador4.manoCartas, List[Cartas](carta2))
+    assertEquals(jugador5.manoCartas, List[Cartas](carta1, carta3, carta6, carta10))
+    assertEquals(jugador6.manoCartas, List[Cartas](carta11, carta12))
+    assertEquals(jugador7.manoCartas, List[Cartas](carta10, carta7))
+    assertEquals(jugador8.manoCartas, List[Cartas](carta2, carta12, carta8))
+
+    assert(!jugador1.manoCartas.equals(List[Cartas](carta4, carta2)))
+    assert(!jugador2.manoCartas.equals(List[Cartas](carta12)))
+    assert(!jugador3.manoCartas.equals(List[Cartas](carta5, carta2, carta1)))
+    assert(!jugador4.manoCartas.equals(List[Cartas]()))
+    assert(!jugador5.manoCartas.equals(List[Cartas](carta6, carta9)))
+    assert(!jugador6.manoCartas.equals(List[Cartas](carta5)))
+    assert(!jugador7.manoCartas.equals(List[Cartas](carta3, carta2)))
+    assert(!jugador8.manoCartas.equals(List[Cartas](carta10, carta9, carta8)))
   }
-  */
   
   test("Robar") {
-    val expected1 = new Jugador("Constanza", "1", 100, List[Cartas](), List[Cartas](carta1, carta3, carta4))
+    val expected1 = new Jugador("Constanza", seccionTablero, 100, List[Cartas](), List[Cartas](carta1, carta3, carta4))
     jugador1.Robar()
     assertEquals(expected1, jugador1, "error")
 
-    val expected2 = new Jugador("Emilio", "2", 15, List[Cartas](carta6), List[Cartas](carta4, carta7, carta12))
+    val expected2 = new Jugador("Emilio", seccionTablero, 15, List[Cartas](carta6), List[Cartas](carta4, carta7, carta12))
     jugador2.Robar()
     assertEquals(expected2, jugador2, "error")
 
-    val expected3 = new Jugador("Diego", "1", 22, List[Cartas](carta2, carta5), List[Cartas](carta1))
+    val expected3 = new Jugador("Diego", seccionTablero, 22, List[Cartas](carta2, carta5), List[Cartas](carta1))
     jugador3.Robar()
     assertEquals(expected3, jugador3, "error")
 
-    val expected4 = new Jugador("Agustín", "2", 20, List[Cartas](carta6), List[Cartas](carta8, carta2))
+    val expected4 = new Jugador("Agustín", seccionTablero, 20, List[Cartas](carta6), List[Cartas](carta8, carta2))
     jugador4.Robar()
     assertEquals(expected4, jugador4, "error")
 
-    val expected5 = new Jugador("Cucha", "1", 95, List[Cartas](carta5, carta2, carta7), List[Cartas](carta4, carta1, carta3, carta6, carta10))
+    val expected5 = new Jugador("Cucha", seccionTablero, 95, List[Cartas](carta5, carta2, carta7), List[Cartas](carta4, carta1, carta3, carta6, carta10))
     jugador5.Robar()
     assertEquals(expected5, jugador5, "error")
   }
 
-  test("Jugar") {
-    val expected6 = new Jugador("Blanquita", "2", 95, List[Cartas](carta11, carta9, carta10), List[Cartas](carta12))
-    jugador6.Jugar()
-    assertEquals(expected6, jugador6, "error")
+  test("Seccion del tablero") {
+    assertEquals (jugador1.seccionTablero, seccionTablero)
+    assertEquals(jugador2.seccionTablero, seccionTablero)
+    assertEquals(jugador3.seccionTablero, seccionTablero)
+    assertEquals(jugador4.seccionTablero, seccionTablero)
+    assertEquals(jugador5.seccionTablero, seccionTablero)
+    assertEquals(jugador6.seccionTablero, seccionTablero)
+    assertEquals(jugador7.seccionTablero, seccionTablero)
+    assertEquals(jugador8.seccionTablero, seccionTablero)
 
-    val expected7 = new Jugador("Simón", "1", 95, List[Cartas](carta10), List[Cartas](carta7))
-    jugador7.Jugar()
-    assertEquals(expected7, jugador7, "error")
-
-    val expected8 = new Jugador("Aki", "2", 95, List[Cartas](carta2, carta11, carta9, carta6, carta3), List[Cartas](carta12, carta8))
-    jugador8.Jugar()
-    assertEquals(expected8, jugador8, "error")
+    assert(!jugador1.seccionTablero.equals(seccionTablero2))
+    assert(!jugador2.seccionTablero.equals(seccionTablero3))
+    assert(!jugador3.seccionTablero.equals(seccionTablero2))
+    assert(!jugador4.seccionTablero.equals(seccionTablero3))
+    assert(!jugador5.seccionTablero.equals(seccionTablero2))
+    assert(!jugador6.seccionTablero.equals(seccionTablero3))
+    assert(!jugador7.seccionTablero.equals(seccionTablero2))
+    assert(!jugador8.seccionTablero.equals(seccionTablero3))
   }
   
   test("Mezclar") {
@@ -247,10 +274,10 @@ class JugadorTest extends munit.FunSuite{
     assert(!jugador1.contadorGemas.equals(nombre2))
     assert(!jugador2.nombre.equals(contadorGemas3))
     assert(!jugador3.seccionTablero.equals(nombre4))
-    assert(!jugador4.contadorGemas.equals(seccionTablero2))
+    assert(!jugador4.contadorGemas.equals(seccionTablero))
     assert(!jugador5.nombre.equals(contadorGemas1))
     assert(!jugador6.seccionTablero.equals(nombre5))
-    assert(!jugador7.contadorGemas.equals(seccionTablero1))
+    assert(!jugador7.contadorGemas.equals(seccionTablero))
     assert(!jugador8.nombre.equals(contadorGemas4))
   }
 
