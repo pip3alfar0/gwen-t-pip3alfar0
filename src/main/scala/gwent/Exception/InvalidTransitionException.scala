@@ -1,5 +1,5 @@
-package cl.uchile.dcc.gwent.Exception
+package cl.uchile.dcc
+package gwent.Exception
 
-class InvalidTransitionException {
-
-}
+class InvalidTransitionException(message: String)
+  extends Exception(message)
