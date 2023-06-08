@@ -1,5 +1,10 @@
-package cl.uchile.dcc.gwent.Controller.States
+package cl.uchile.dcc
+package gwent.Controller.States
 
-class FinPartida {
+import gwent.Controller.GameController
 
+class FinPartida(context: GameController) extends EstadoJuego(context) {
+  
+  // jugador que le queden gemas gana, si ninguno tiene es empate
+  
 }
