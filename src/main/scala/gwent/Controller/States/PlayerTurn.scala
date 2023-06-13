@@ -3,19 +3,20 @@ package gwent.Controller.States
 
 import gwent.Controller.GameController
 
-class JugadorJuega(context: GameController) extends GameState(context) {
 
-  override def toOtroJuega(): Unit = {
-    context.estado = new OtroJuega(context)
+class PlayerTurn(context: GameController) extends GameState(context) {
+
+  override def toOtherTurn(): Unit = {
+    context.state = new OtherTurn(context)
   }
 
-  override def toComputadorJuega(): Unit = {
-    context.estado = new ComputadorJuega(context)
+  override def toComputerTurn(): Unit = {
+    context.state = new ComputerTurn(context)
   }
 
-  // tiene que jugar una carta
+  // tiene que jugar una carta, o pasar
   override def doAction(): Unit = {
-    context.jugarPlayer()
+    context.PlayPlayer()
   }
 
 }
