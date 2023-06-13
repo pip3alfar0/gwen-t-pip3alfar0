@@ -1,7 +1,7 @@
 package cl.uchile.dcc
 package gwent.Controller.States
 
-import gwent.Jugador.Player
+import gwent.Player.Player
 import gwent.Controller.GameController
 
 
@@ -13,17 +13,17 @@ import gwent.Controller.GameController
  * @param context The context of the game.
  * @author Felipe Alfaro
  */
-class InicioPartida(context: GameController) extends GameState(context) {
+class StartGame(context: GameController) extends GameState(context) {
 
   /** The player decides which card it's going to be played */
-  override def toJugadorJuega(): Unit = {
-    context.estado = new JugadorJuega(context)
+  override def toPlayerTurn(): Unit = {
+    context.state = new PlayerTurn(context)
     //context.jugar()
   }
 
   /** debe jugar aleatoriamente*/
-  override def toComputadorJuega(): Unit = {
-    context.estado = new ComputadorJuega(context)
+  override def toComputerTurn(): Unit = {
+    context.state = new ComputerTurn(context)
     //context.jugar()
   }
 
