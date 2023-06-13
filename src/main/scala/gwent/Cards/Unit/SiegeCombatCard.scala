@@ -1,27 +1,27 @@
 package cl.uchile.dcc
-package gwent.Cartas.Unidad
+package gwent.Cards.Unidad
 
-import gwent.Cartas.Unidad.AbstractCartaUnidad
+import gwent.Cards.Unidad.AbstractUnitCard
 
-import gwent.Jugador.Jugador
-import gwent.Tablero.Tablero
+import gwent.Player.Player
+import gwent.Board.Board
 
 /** Class representing a siege combat unit card in the game.
  *
- * A `SiegeCombatCard` is a type of [[AbstractCartaUnidad]].
+ * A `SiegeCombatCard` is a type of [[AbstractUnitCard]].
  * These cards represent troops that engage in close combat on the battlefield.
  * As per the game's rules, these cards can only be placed in the close combat zone.
  *
  * @constructor Creates a new `SiegeCombatCard` with a specified name, description, and
  *              power.
- * @param nombre The name of the Card.
- * @param descripcion The description of the card.
- * @param fuerza The initial power value of the card, which also corresponds to the
+ * @param name The name of the Card.
+ * @param description The description of the card.
+ * @param power The initial power value of the card, which also corresponds to the
  *              strength of the troop it represents.
  * @author Felipe Alfaro
  */
 
-class Asedio(nombre: String, descripcion: String, fuerza: Int) extends AbstractCartaUnidad(nombre, descripcion, fuerza) {
+class SiegeCombatCard(name: String, description: String, power: Int) extends AbstractUnitCard(name, description, power) {
 
   /** Play a siege combat card and added to the siege combat card zone.
    *
@@ -32,12 +32,12 @@ class Asedio(nombre: String, descripcion: String, fuerza: Int) extends AbstractC
    * @param j The player.
    * @param t The player's board.
    */
-  override def Jugar(j: Jugador, t: Tablero): Unit = {
-    j.seccionTablero.jugarAsedio(this)
+  override def Play(j: Player, t: Board): Unit = {
+    j.boardSection.PlaySiege(this)
   }
 
   override def equals(obj: Any): Boolean = obj match {
-    case other: Asedio =>
+    case other: SiegeCombatCard =>
       super.equals(other)
     case _ => false
   }

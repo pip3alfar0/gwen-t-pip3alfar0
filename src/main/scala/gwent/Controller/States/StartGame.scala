@@ -1,19 +1,19 @@
 package cl.uchile.dcc
 package gwent.Controller.States
 
-import gwent.Jugador.Jugador
+import gwent.Jugador.Player
 import gwent.Controller.GameController
 
 
 /** Class representing the start of the game.
  *
- * A `StartGame` is a type of [[EstadoJuego]].
+ * A `StartGame` is a type of [[GameState]].
  * This start represent the first things to do in the game.
  *
  * @param context The context of the game.
  * @author Felipe Alfaro
  */
-class InicioPartida(context: GameController) extends EstadoJuego(context) {
+class InicioPartida(context: GameController) extends GameState(context) {
 
   /** The player decides which card it's going to be played */
   override def toJugadorJuega(): Unit = {

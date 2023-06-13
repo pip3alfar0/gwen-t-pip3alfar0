@@ -3,7 +3,7 @@ package gwent.Controller.States
 
 import gwent.Controller.GameController
 
-class OtroJuega(context: GameController) extends EstadoJuego(context) {
+class OtroJuega(context: GameController) extends GameState(context) {
 
   override def toFinalRound(): Unit = {
     context.estado = new FinalRound(context)

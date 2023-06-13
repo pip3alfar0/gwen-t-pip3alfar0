@@ -1,18 +1,18 @@
 package cl.uchile.dcc
-package gwent.Cartas.Unidad
+package gwent.Cards.Unidad
 
-import gwent.Cartas.Cartas
+import gwent.Cards.Card
 
 import java.util.Objects
 
 /** It's an abstract class representing a unity card in the game.
  * This card is defined by a name, a classification and strength.
  *
- * An `AbstractCartaUnidad` is a type of [[Cartas]] that has a power value which contributes to
+ * An `AbstractUnitCard` is a type of [[Card]] that has a power value which contributes to
  * the player's total power in the game.
  * Each unit card starts with its current power equal to its base power.
  *
- * The classification of the unit card can be Cuerpo a Cuerpo, Distancia or Asedio.
+ * The classification of the unit card can be CloseCombat, RangedCombat or SiegeCombat.
  *
  * @constructor Creates a new `AbstractUnitCard` with a specified name, description, and
  *              power.
@@ -21,26 +21,25 @@ import java.util.Objects
  *                    role in the game.
  *  power The base power of the card, indicating the contribution of this card to
  *              the player's total power when unaffected by any special conditions.
- *
  * @author Felipe Alfaro
  * */
 
-abstract class AbstractCartaUnidad protected(val nombre: String, val descripcion: String, val fuerza: Int) extends Cartas {
+abstract class AbstractUnitCard protected(val name: String, val description: String, val power: Int) extends Card {
 
   /** The current power of the card, which may be affected by various conditions during
    * gameplay.
-   * Initially set to the base [[fuerza]] of the card.
+   * Initially set to the base [[power]] of the card.
    */
-  var fuerzaActual: Int = fuerza
+  var currentPower: Int = power
 
   override def hashCode(): Int = {
-    Objects.hash(classOf[AbstractCartaUnidad], nombre, descripcion, fuerza)
+    Objects.hash(classOf[AbstractUnitCard], name, description, power)
   }
   
   override def equals(obj: Any): Boolean = {
-    if (obj.isInstanceOf[AbstractCartaUnidad]) {
-      val other = obj.asInstanceOf[AbstractCartaUnidad]
-      (this eq other) || nombre == other.nombre && descripcion == other.descripcion && fuerza == other.fuerza
+    if (obj.isInstanceOf[AbstractUnitCard]) {
+      val other = obj.asInstanceOf[AbstractUnitCard]
+      (this eq other) || name == other.name && description == other.description && power == other.power
     } else {
       false
     }

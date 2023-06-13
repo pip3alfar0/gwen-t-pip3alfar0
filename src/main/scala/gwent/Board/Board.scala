@@ -1,17 +1,17 @@
 package cl.uchile.dcc
 package gwent.Tablero
 
-import gwent.Cartas.{CartaClima, Cartas}
+import gwent.Cartas.{WeatherCard, Card}
 
-import gwent.Cartas.Unidad.AbstractCartaUnidad
-import gwent.Jugador.Jugador
+import gwent.Cartas.Unidad.AbstractUnitCard
+import gwent.Jugador.Player
 
 /** It's a class representing the board of the game.
  * This board is defined by two players and a weather zone.
  *
  * @param j1 Represents a player.
  * @param j2 Represents other player.
- * @param zonaClima The zone where the weather cards are placed.
+ * @param weatherZone The zone where the weather cards are placed.
  *
  * @example
  * {{{
@@ -20,10 +20,10 @@ import gwent.Jugador.Jugador
  * @author Felipe Alfaro
  * */
 
-class Tablero(j1: Jugador, j2: Jugador, private var _zonaClima: List[CartaClima]) {
+class Board(j1: Player, j2: Player, private var _weatherZone: List[WeatherCard]) {
 
   /** Accessor method for the board's weather zone */
-  def zonaClima: List[CartaClima] = _zonaClima
+  def weatherZone: List[WeatherCard] = _weatherZone
 
   /** Player play a card and added to the player's section of the board or the weather zone, corresponding to the type of card.
    *
@@ -31,12 +31,12 @@ class Tablero(j1: Jugador, j2: Jugador, private var _zonaClima: List[CartaClima]
    *
    * This function modifies the section of the board of the player or the weather zone.
    *
-   * @param carta The played card that will be added to the type card's section.
+   * @param card The played card that will be added to the type card's section.
    *              
    * @author Felipe Alfaro
    */
-  def Jugar(j: Jugador, card: Cartas): Unit = {
-    j.Jugar(card, this)
+  def Play(j: Player, card: Card): Unit = {
+    j.Play(card, this)
   }
 
   /** Player play a weather card and added to the weather zone.
@@ -45,12 +45,12 @@ class Tablero(j1: Jugador, j2: Jugador, private var _zonaClima: List[CartaClima]
    *
    * This function modifies the list of weather cards that are in the weather zone.
    *
-   * @param carta The played weather card that will be added to the weather zone.
+   * @param card The played weather card that will be added to the weather zone.
    *              
    * @author Felipe Alfaro
    */
-  def jugarClima(j: Jugador, carta: CartaClima): Unit = {
-    _zonaClima = zonaClima :+ carta
+  def playWeather(j: Player, card: WeatherCard): Unit = {
+    _weatherZone = weatherZone :+ card
   }
 
 }

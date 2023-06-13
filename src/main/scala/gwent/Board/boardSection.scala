@@ -1,22 +1,22 @@
 package cl.uchile.dcc
 package gwent.Tablero
 
-import gwent.Cartas.Cartas
-import gwent.Cartas.Unidad.{Asedio, CuerpoACuerpo, Distancia}
+import gwent.Cartas.Card
+import gwent.Cartas.Unidad.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
 
 /** It's a class that represents a the player's section of the board. 
  * 
  * This player's section board is defined by a list of siege combat cards, a list of close combat cards and a list of ranged combat cards.
  *
- * @param distancia The list of ranged combat cards.
- * @param asedio The list of siege combat cards.
- * @param cuerpoACuerpo The list of close combat cards.
+ * @param ranged The list of ranged combat cards.
+ * @param siege The list of siege combat cards.
+ * @param close The list of close combat cards.
  *
  * @author Felipe Alfaro
  * */
 
-class SeccionTablero(var distancia: List[Distancia] = List(), var asedio: List[Asedio] = List(), 
-                     var cuerpoACuerpo: List[CuerpoACuerpo] = List()) {
+class boardSection(var ranged: List[RangedCombatCard] = List(), var siege: List[SiegeCombatCard] = List(),
+                   var close: List[CloseCombatCard] = List()) {
 
   /** Play a ranged combat card and added to the ranged combat card zone.
    *
@@ -24,10 +24,10 @@ class SeccionTablero(var distancia: List[Distancia] = List(), var asedio: List[A
    *
    * This function modifies the list of ranged combat cards that are in the ranged combat zone.
    *
-   * @param carta The played ranged combat card that will be added to the ranged combat zone.
+   * @param card The played ranged combat card that will be added to the ranged combat zone.
    */
-  def jugarDistancia(carta: Distancia): Unit = {
-    distancia = carta :: distancia
+  def PlayRanged(card: RangedCombatCard): Unit = {
+    ranged = card :: ranged
   }
 
   /** Play a siege combat card and added to the siege combat card zone.
@@ -36,10 +36,10 @@ class SeccionTablero(var distancia: List[Distancia] = List(), var asedio: List[A
    *
    * This function modifies the list of siege combat cards that are in the siege combat zone.
    *
-   * @param carta The played siege combat card that will be added to the siege combat zone.
+   * @param card The played siege combat card that will be added to the siege combat zone.
    */
-  def jugarAsedio(carta: Asedio): Unit = {
-    asedio = carta :: asedio
+  def PlaySiege(card: SiegeCombatCard): Unit = {
+    siege = card :: siege
   }
 
   /** Play a close combat card and added to the close combat card zone.
@@ -48,10 +48,10 @@ class SeccionTablero(var distancia: List[Distancia] = List(), var asedio: List[A
    *
    * This function modifies the list of close combat cards that are in the close combat zone.
    *
-   * @param carta The played close combat card that will be added to the close combat zone.
+   * @param card The played close combat card that will be added to the close combat zone.
    */
-  def jugarCuerpoACuerpo(carta: CuerpoACuerpo): Unit = {
-    cuerpoACuerpo = carta :: cuerpoACuerpo
+  def PlayClose(card: CloseCombatCard): Unit = {
+    close = card :: close
   }
   
 }

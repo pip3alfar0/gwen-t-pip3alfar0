@@ -1,8 +1,8 @@
 package cl.uchile.dcc
-package gwent.Cartas
+package gwent.Cards
 
-import gwent.Jugador.Jugador
-import gwent.Tablero.Tablero
+import gwent.Player.Player
+import gwent.Board.Board
 
 /** It's a trait that represents a card of the game.
  *
@@ -19,17 +19,17 @@ import gwent.Tablero.Tablero
  * classes that extend this trait.
  * */
 
-trait Cartas {
+trait Card {
 
   /** The name of the card.
    * This is an immutable property.
    */
-  val nombre: String
+  val name: String
 
   /** A description of the card's properties or effects.
    * This is an immutable property.
    */
-  val descripcion: String
+  val description: String
 
   /** Player play a card and added to the card's section.
    * 
@@ -38,6 +38,6 @@ trait Cartas {
    *
    * @author Felipe Alfaro
    */
-  def Jugar(j: Jugador, t: Tablero): Unit
+  def Play(j: Player, t: Board): Unit
 
 }

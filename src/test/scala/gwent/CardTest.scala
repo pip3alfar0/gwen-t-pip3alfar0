@@ -1,11 +1,11 @@
 package cl.uchile.dcc
 package gwent
 
-import gwent.Cartas.{CartaClima, Cartas}
+import gwent.Cartas.{WeatherCard, Card}
 
-import cl.uchile.dcc.gwent.Cartas.Unidad.{Asedio, CuerpoACuerpo, Distancia}
-import cl.uchile.dcc.gwent.Jugador.Jugador
-import cl.uchile.dcc.gwent.Tablero.SeccionTablero
+import cl.uchile.dcc.gwent.Cartas.Unidad.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
+import cl.uchile.dcc.gwent.Jugador.Player
+import cl.uchile.dcc.gwent.Tablero.boardSection
 
 class CartasTest extends munit.FunSuite {
     val nombre1: String = "carta1"
@@ -30,25 +30,25 @@ class CartasTest extends munit.FunSuite {
     val fuerza5: Int = 45
     val fuerza6: Int = 25
 
-    var carta1: Asedio = _  // null
-    var carta2: CartaClima = _
-    var carta3: CuerpoACuerpo = _
-    var carta4: Distancia = _
-    var carta5: CartaClima = _
-    var carta6: Asedio = _
-    var carta7: CuerpoACuerpo = _
-    var carta8: Distancia = _
+    var carta1: SiegeCombatCard = _  // null
+    var carta2: WeatherCard = _
+    var carta3: CloseCombatCard = _
+    var carta4: RangedCombatCard = _
+    var carta5: WeatherCard = _
+    var carta6: SiegeCombatCard = _
+    var carta7: CloseCombatCard = _
+    var carta8: RangedCombatCard = _
 
 
     override def beforeEach(context: BeforeEach): Unit = {
-        carta1 = new Asedio("carta1", "Asedio", 50)
-        carta2 = new CartaClima("carta2", "a")
-        carta3 = new CuerpoACuerpo("carta3", "Cuerpo a Cuerpo", 90)
-        carta4 = new Distancia("carta4", "Distancia", 35)
-        carta5 = new CartaClima("carta5", "b")
-        carta6 = new Asedio("carta6", "Asedio", 70)
-        carta7 = new CuerpoACuerpo("carta7", "Cuerpo a Cuerpo", 45)
-        carta8 = new Distancia("carta8", "Distancia", 25)
+        carta1 = new SiegeCombatCard("carta1", "Asedio", 50)
+        carta2 = new WeatherCard("carta2", "a")
+        carta3 = new CloseCombatCard("carta3", "Cuerpo a Cuerpo", 90)
+        carta4 = new RangedCombatCard("carta4", "Distancia", 35)
+        carta5 = new WeatherCard("carta5", "b")
+        carta6 = new SiegeCombatCard("carta6", "Asedio", 70)
+        carta7 = new CloseCombatCard("carta7", "Cuerpo a Cuerpo", 45)
+        carta8 = new RangedCombatCard("carta8", "Distancia", 25)
     }
 
     test("Equals"){
@@ -61,23 +61,23 @@ class CartasTest extends munit.FunSuite {
         carta7.equals(carta7)
         carta8.equals(carta8)
 
-        assertEquals(carta1, new Asedio("carta1", "Asedio", 50))
-        assertEquals(carta2, new CartaClima("carta2", "a"))
-        assertEquals(carta3, new CuerpoACuerpo("carta3", "Cuerpo a Cuerpo", 90))
-        assertEquals(carta4, new Distancia("carta4", "Distancia", 35))
-        assertEquals(carta5, new CartaClima("carta5", "b"))
-        assertEquals(carta6, new Asedio("carta6", "Asedio", 70))
-        assertEquals(carta7, new CuerpoACuerpo("carta7", "Cuerpo a Cuerpo", 45))
-        assertEquals(carta8, new Distancia("carta8", "Distancia", 25))
+        assertEquals(carta1, new SiegeCombatCard("carta1", "Asedio", 50))
+        assertEquals(carta2, new WeatherCard("carta2", "a"))
+        assertEquals(carta3, new CloseCombatCard("carta3", "Cuerpo a Cuerpo", 90))
+        assertEquals(carta4, new RangedCombatCard("carta4", "Distancia", 35))
+        assertEquals(carta5, new WeatherCard("carta5", "b"))
+        assertEquals(carta6, new SiegeCombatCard("carta6", "Asedio", 70))
+        assertEquals(carta7, new CloseCombatCard("carta7", "Cuerpo a Cuerpo", 45))
+        assertEquals(carta8, new RangedCombatCard("carta8", "Distancia", 25))
 
-        assert(!carta1.equals(new CartaClima("carta2", "a")))
-        assert(!carta2.equals(new CuerpoACuerpo("carta3", "Cuerpo a Cuerpo", 90)))
-        assert(!carta3.equals(new Distancia("carta4", "Distancia", 35)))
-        assert(!carta4.equals(new CartaClima("carta5", "b")))
-        assert(!carta5.equals(new Asedio("carta6", "Asedio", 70)))
-        assert(!carta6.equals(new CuerpoACuerpo("carta7", "Cuerpo a Cuerpo", 45)))
-        assert(!carta7.equals(new Distancia("carta8", "Distancia", 25)))
-        assert(!carta8.equals(new Asedio("carta1", "Asedio", 50)))
+        assert(!carta1.equals(new WeatherCard("carta2", "a")))
+        assert(!carta2.equals(new CloseCombatCard("carta3", "Cuerpo a Cuerpo", 90)))
+        assert(!carta3.equals(new RangedCombatCard("carta4", "Distancia", 35)))
+        assert(!carta4.equals(new WeatherCard("carta5", "b")))
+        assert(!carta5.equals(new SiegeCombatCard("carta6", "Asedio", 70)))
+        assert(!carta6.equals(new CloseCombatCard("carta7", "Cuerpo a Cuerpo", 45)))
+        assert(!carta7.equals(new RangedCombatCard("carta8", "Distancia", 25)))
+        assert(!carta8.equals(new SiegeCombatCard("carta1", "Asedio", 50)))
 
         assertEquals(carta1, carta1)
         assertEquals(carta2, carta2)
@@ -127,14 +127,14 @@ class CartasTest extends munit.FunSuite {
         assert(carta7.hashCode()!=carta8.hashCode())
         assert(carta8.hashCode()!=carta1.hashCode())
         
-        assert(carta1.hashCode() == (new Asedio("carta1", "Asedio", 50)).hashCode())
-        assert(carta2.hashCode() == (new CartaClima("carta2", "a")).hashCode())
-        assert(carta3.hashCode() == (new CuerpoACuerpo("carta3", "Cuerpo a Cuerpo", 90)).hashCode())
-        assert(carta4.hashCode() == (new Distancia("carta4", "Distancia", 35)).hashCode())
-        assert(carta5.hashCode() == (new CartaClima("carta5", "b")).hashCode())
-        assert(carta6.hashCode() == (new Asedio("carta6", "Asedio", 70)).hashCode())
-        assert(carta7.hashCode() == (new CuerpoACuerpo("carta7", "Cuerpo a Cuerpo", 45)).hashCode())
-        assert(carta8.hashCode() == (new Distancia("carta8", "Distancia", 25)).hashCode())
+        assert(carta1.hashCode() == (new SiegeCombatCard("carta1", "Asedio", 50)).hashCode())
+        assert(carta2.hashCode() == (new WeatherCard("carta2", "a")).hashCode())
+        assert(carta3.hashCode() == (new CloseCombatCard("carta3", "Cuerpo a Cuerpo", 90)).hashCode())
+        assert(carta4.hashCode() == (new RangedCombatCard("carta4", "Distancia", 35)).hashCode())
+        assert(carta5.hashCode() == (new WeatherCard("carta5", "b")).hashCode())
+        assert(carta6.hashCode() == (new SiegeCombatCard("carta6", "Asedio", 70)).hashCode())
+        assert(carta7.hashCode() == (new CloseCombatCard("carta7", "Cuerpo a Cuerpo", 45)).hashCode())
+        assert(carta8.hashCode() == (new RangedCombatCard("carta8", "Distancia", 25)).hashCode())
     }
 
     test("Nombre") {
@@ -205,8 +205,8 @@ class CartasTest extends munit.FunSuite {
     }
 
     test("Jogador") {
-        assert(!carta1.equals(new Jugador("Simba", new SeccionTablero(), 90, List[Cartas](), List[Cartas]())))
-        assert(!carta2.equals(new Jugador("Kitty", new SeccionTablero(), 100, List[Cartas](), List[Cartas]())))
+        assert(!carta1.equals(new Player("Simba", new boardSection(), 90, List[Card](), List[Card]())))
+        assert(!carta2.equals(new Player("Kitty", new boardSection(), 100, List[Card](), List[Card]())))
     }
 
 }

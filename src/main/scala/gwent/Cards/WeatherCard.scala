@@ -1,28 +1,27 @@
 package cl.uchile.dcc
-package gwent.Cartas
+package gwent.Cards
 
-import gwent.Cartas.Cartas
+import gwent.Cards.Card
 
-import gwent.Jugador.Jugador
-import gwent.Tablero.Tablero
-
+import gwent.Player.Player
+import gwent.Board.Board
 import java.util.Objects
+
 
 /** It's a class representing a weather card in the game.
  *
- *
- * @param nombre The name of the Card.
- * @param descripcion The description of the card.
+ * @param name The name of the Card.
+ * @param description The description of the card.
  *
  * @example
  * {{{
- *   val carta2 = new CartaClima("carta2", "a")
+ *   val card2 = new WeatherCard("card2", "a")
  * }}}
  *
  * @author Felipe Alfaro
  * */
 
-class CartaClima(val nombre: String, val descripcion: String) extends Cartas {
+class WeatherCard(val name: String, val description: String) extends Card {
   
   /** Player play a weather card and added to the weather zone.
    *
@@ -34,18 +33,18 @@ class CartaClima(val nombre: String, val descripcion: String) extends Cartas {
    * @param j The player.
    * @param t The player's board.
    */
-  override def Jugar(j: Jugador, t: Tablero): Unit = {
-    t.jugarClima(j, this)
+  override def Play(j: Player, t: Board): Unit = {
+    t.playWeather(j, this)
   }
 
   override def hashCode(): Int = {
-    Objects.hash(classOf[CartaClima], nombre, descripcion)
+    Objects.hash(classOf[WeatherCard], name, description)
   }
 
   override def equals(obj: Any): Boolean = {
-    if (obj.isInstanceOf[CartaClima]) {
-      val other = obj.asInstanceOf[CartaClima]
-      (this eq other) || nombre == other.nombre && descripcion == other.descripcion
+    if (obj.isInstanceOf[WeatherCard]) {
+      val other = obj.asInstanceOf[WeatherCard]
+      (this eq other) || name == other.name && description == other.description
     } else {
       false
     }

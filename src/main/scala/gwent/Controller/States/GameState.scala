@@ -6,7 +6,7 @@ import gwent.Exception.InvalidTransitionException
 
 
 class EstadoJuego(val context: GameController) {
-  context.estado = this
+  context.state = this
 
   def toInicioPartida(): Unit = {
     transitionError("InicioPartida")

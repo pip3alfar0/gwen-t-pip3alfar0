@@ -1,8 +1,8 @@
 package cl.uchile.dcc
 package gwent.Jugador
 
-import gwent.Cartas.Cartas
-import gwent.Tablero.{SeccionTablero, Tablero}
+import gwent.Cartas.Card
+import gwent.Tablero.{boardSection, Board}
 import java.util.Objects
 
 /** It's a class that represents a player in the game.
@@ -15,34 +15,34 @@ import java.util.Objects
  * By using immutable data structures, we can avoid potential side effects caused by
  * mutable state and make our code safer and easier to reason about.
  *
- * @param nombre The name of the Player.
- * @param seccionTablero The board section of the Player.
- * @param contadorGemas The gem counter, represents the Player's life.
- * @param mazo The deck of cards are the cards in the board.
- * @param manoCartas The hand of cards are the Player's cards.
+ * @param name The name of the Player.
+ * @param boardSection The board section of the Player.
+ * @param gemCounter The gem counter, represents the Player's life.
+ * @param deck The deck of cards are the cards in the board.
+ * @param handCards The hand of cards are the Player's cards.
  *
  * @example
  * {{{
- *      jugador = new Jugador("Constanza", new seccionTablero(List[Cartas](carta1), List[Cartas](carta3), List[Cartas](carta10, carta12)), 100, List[Cartas](carta2), List[Cartas]())
+ *      player = new Player("Constanza", new boardSection(List[Card](card1), List[Card](card3), List[Card](card10, card12)), 100, List[Card](card2), List[Card]())
  * }}}
  *
  * @author Felipe Alfaro
  * */
 
-class Jugador(val nombre: String, var seccionTablero: SeccionTablero, private val _contadorGemas: Int, private var _mazo: List[Cartas],
-              private var _manoCartas: List[Cartas]) {
+class Player(val name: String, var boardSection: boardSection, private val _gemCounter: Int, private var _deck: List[Card],
+             private var _handCards: List[Card]) {
 
     /** Accesor methos for the player's gem counter */
-    def contadorGemas: Int = _contadorGemas
+    def gemCounter: Int = _gemCounter
 
     /** Accessor method for the player's deck */
-    def mazo: List[Cartas] = _mazo
+    def deck: List[Card] = _deck
 
     /** Accessor method for the player's hand */
-    def manoCartas: List[Cartas] = _manoCartas
+    def handCards: List[Card] = _handCards
 
     /** The gem counter can not be negative */
-    require(contadorGemas >= 0, "The gem counter can not be less than zero")
+    require(gemCounter >= 0, "The gem counter can not be less than zero")
 
     /** Select a card from your hand and place it on the board to perform an action.
      *
@@ -53,14 +53,13 @@ class Jugador(val nombre: String, var seccionTablero: SeccionTablero, private va
      *
      * @param card The played card.
      * @param board The board where the player is playing.
-     * @example
      * 
      * @author Felipe Alfaro
      */
-    def Jugar(card: Cartas, board: Tablero): Unit = {
-        require(manoCartas.contains(card), "The card is not on the player's hand")
-        _manoCartas = manoCartas.filterNot(_ eq card)
-        card.Jugar(this, board)
+    def Play(card: Card, board: Board): Unit = {
+        require(handCards.contains(card), "The card is not on the player's hand")
+        _handCards = handCards.filterNot(_ eq card)
+        card.Play(this, board)
     }
     
     /** Take a card from the deck and add it to your hand.
@@ -72,14 +71,14 @@ class Jugador(val nombre: String, var seccionTablero: SeccionTablero, private va
      *
      * @example
      * {{{
-     *  val jugador1 = new Jugador("Constanza", "bobaboba", 100, Set[Cartas](), Set[Cartas](new CartaUnidad("carta1", "Asedio", 50)))
-     *  jugador1.Robar()
+     *  val player1 = new Player("Constanza", "bobaboba", 100, Set[Card](), Set[Card](new SiegeCombaCard("card1", "SiegeCombaCard", 50)))
+     *  player1.Steal()
      * }}}
      */
-    def Robar(): Cartas = {
-        val card = mazo.head
-        _mazo = mazo.tail
-        _manoCartas = card :: manoCartas
+    def Steal(): Card = {
+        val card = deck.head
+        _deck = deck.tail
+        _handCards = card :: handCards
         card
     }
 
@@ -89,18 +88,18 @@ class Jugador(val nombre: String, var seccionTablero: SeccionTablero, private va
      * This is achieved by creating a new, shuffled list and reassigning _deck to it, rather
      * than by modifying the original list.
      */
-    def mezclarMazo(): Unit = {
-        _mazo = scala.util.Random.shuffle(_mazo)
+    def shuffleDeck(): Unit = {
+        _deck = scala.util.Random.shuffle(_deck)
     }
 
     override def hashCode(): Int = {
-        Objects.hash(classOf[Jugador], nombre, seccionTablero, contadorGemas, mazo, manoCartas)
+        Objects.hash(classOf[Player], name, boardSection, gemCounter, deck, handCards)
     }
 
     override def equals(obj: Any): Boolean = {
-        if (obj.isInstanceOf[Jugador]) {
-            val other = obj.asInstanceOf[Jugador]
-            (this eq other) || other.nombre == nombre && other.seccionTablero == seccionTablero && other.contadorGemas == contadorGemas && other.mazo == mazo && other.manoCartas == manoCartas
+        if (obj.isInstanceOf[Player]) {
+            val other = obj.asInstanceOf[Player]
+            (this eq other) || other.name == name && other.boardSection == boardSection && other.gemCounter == gemCounter && other.deck == deck && other.handCards == handCards
         } else {
             false
         }
