@@ -1,122 +1,122 @@
 package cl.uchile.dcc
 package gwent
 
-import gwent.Cartas.{WeatherCard, Card}
-import gwent.Cartas.Unidad.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
-import gwent.Jugador.Player
-import gwent.Tablero.{boardSection, Board}
+import gwent.Cards.{WeatherCard, Card}
+import gwent.Cards.Unit.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
+import gwent.Player.Player
+import gwent.Board.{boardSection, Board}
 
-class TableroTest extends munit.FunSuite {
+class BoardTest extends munit.FunSuite {
 
-  var tablero1: Board = _
-  var tablero2: Board = _
-  var tablero3: Board = _
-  var tablero4: Board = _
+  var board1: Board = _
+  var board2: Board = _
+  var board3: Board = _
+  var board4: Board = _
 
-  var zonaClima1: List[WeatherCard] = _
-  var zonaClima2: List[WeatherCard] = _
-  var zonaClima3: List[WeatherCard] = _
-  var zonaClima4: List[WeatherCard] = _
+  var weatherZone1: List[WeatherCard] = _
+  var weatherZone2: List[WeatherCard] = _
+  var weatherZone3: List[WeatherCard] = _
+  var weatherZone4: List[WeatherCard] = _
 
-  var seccionTablero = new boardSection()
+  var boardSection = new boardSection()
 
-  var jugador1: Player = _
-  var jugador2: Player = _
-  var jugador3: Player = _
-  var jugador4: Player = _
-  var jugador5: Player = _
-  var jugador6: Player = _
-  var jugador7: Player = _
-  var jugador8: Player = _
+  var player1: Player = _
+  var player2: Player = _
+  var player3: Player = _
+  var player4: Player = _
+  var player5: Player = _
+  var player6: Player = _
+  var player7: Player = _
+  var player8: Player = _
 
-  var carta1: SiegeCombatCard = _
-  var carta2: WeatherCard = _
-  var carta3: CloseCombatCard = _
-  var carta4: RangedCombatCard = _
-  var carta5: WeatherCard = _
-  var carta6: SiegeCombatCard = _
-  var carta7: CloseCombatCard = _
-  var carta8: RangedCombatCard = _
-  var carta9: RangedCombatCard = _
-  var carta10: CloseCombatCard = _
-  var carta11: SiegeCombatCard = _
-  var carta12: WeatherCard = _
+  var card1: SiegeCombatCard = _
+  var card2: WeatherCard = _
+  var card3: CloseCombatCard = _
+  var card4: RangedCombatCard = _
+  var card5: WeatherCard = _
+  var card6: SiegeCombatCard = _
+  var card7: CloseCombatCard = _
+  var card8: RangedCombatCard = _
+  var card9: RangedCombatCard = _
+  var card10: CloseCombatCard = _
+  var card11: SiegeCombatCard = _
+  var card12: WeatherCard = _
 
   override def beforeEach(context: BeforeEach): Unit = {
-    carta1 = new SiegeCombatCard("carta1", "Asedio", 50)
-    carta2 = new WeatherCard("carta2", "a")
-    carta3 = new CloseCombatCard("carta3", "Cuerpo a Cuerpo", 90)
-    carta4 = new RangedCombatCard("carta4", "Distancia", 35)
-    carta5 = new WeatherCard("carta5", "b")
-    carta6 = new SiegeCombatCard("carta6", "Asedio", 70)
-    carta7 = new CloseCombatCard("carta7", "Cuerpo a Cuerpo", 45)
-    carta8 = new RangedCombatCard("carta8", "Distancia", 25)
-    carta9 = new RangedCombatCard("carta9", "Distancia", 45)
-    carta10 = new CloseCombatCard("carta10", "Cuerpo a Cuerpo", 60)
-    carta11 = new SiegeCombatCard("carta11", "Asedio", 40)
-    carta12 = new WeatherCard("carta12", "c")
+    card1 = new SiegeCombatCard("card1", "SiegeCombat", 50)
+    card2 = new WeatherCard("card2", "a")
+    card3 = new CloseCombatCard("card3", "CloseCombat", 90)
+    card4 = new RangedCombatCard("card4", "RangeCombat", 35)
+    card5 = new WeatherCard("card5", "b")
+    card6 = new SiegeCombatCard("card6", "SiegeCombat", 70)
+    card7 = new CloseCombatCard("card7", "CloseCombat", 45)
+    card8 = new RangedCombatCard("card8", "RangeCombat", 25)
+    card9 = new RangedCombatCard("card9", "RangeCombat", 45)
+    card10 = new CloseCombatCard("card10", "CloseCombat", 60)
+    card11 = new SiegeCombatCard("card11", "SiegeCombat", 40)
+    card12 = new WeatherCard("card12", "c")
 
-    jugador1 = new Player("Constanza", seccionTablero, 100, List[Card](carta1), List[Card](carta3, carta4))
-    jugador2 = new Player("Emilio", seccionTablero, 15, List[Card](carta4, carta6), List[Card](carta7, carta12))
-    jugador3 = new Player("Diego", seccionTablero, 22, List[Card](carta1, carta2, carta5), List[Card](carta9))
-    jugador4 = new Player("Agustín", seccionTablero, 20, List[Card](carta8, carta6), List[Card](carta2))
-    jugador5 = new Player("Cucha", seccionTablero, 95, List[Card](carta4, carta5, carta7), List[Card](carta1, carta2, carta3, carta6))
-    jugador6 = new Player("Blanquita", seccionTablero, 95, List[Card](carta9, carta10), List[Card](carta11))
-    jugador7 = new Player("Simón", seccionTablero, 95, List[Card](), List[Card](carta10, carta7))
-    jugador8 = new Player("Aki", seccionTablero, 95, List[Card](carta11, carta9, carta6, carta3), List[Card](carta2, carta12, carta8))
+    player1 = new Player("Constanza", boardSection, 2, List[Card](card1), List[Card](card3, card4))
+    player2 = new Player("Emilio", boardSection, 2, List[Card](card4, card6), List[Card](card7, card12))
+    player3 = new Player("Diego", boardSection, 2, List[Card](card1, card2, card5), List[Card](card9))
+    player4 = new Player("Agustín", boardSection, 2, List[Card](card8, card6), List[Card](card2))
+    player5 = new Player("Cucha", boardSection, 2, List[Card](card4, card5, card7), List[Card](card1, card2, card3, card6))
+    player6 = new Player("Blanquita", boardSection, 2, List[Card](card9, card10), List[Card](card11))
+    player7 = new Player("Simón", boardSection, 2, List[Card](), List[Card](card10, card7))
+    player8 = new Player("Aki", boardSection, 2, List[Card](card11, card9, card6, card3), List[Card](card2, card12, card8))
 
-    zonaClima1 = List(carta2)
-    zonaClima2 = List(carta5)
-    zonaClima3 = List(carta12)
-    zonaClima4 = List()
+    weatherZone1 = List(card2)
+    weatherZone2 = List(card5)
+    weatherZone3 = List(card12)
+    weatherZone4 = List()
 
-    tablero1 = new Board(jugador1, jugador2, List(carta2))
-    tablero2 = new Board(jugador3, jugador4, List(carta5))
-    tablero3 = new Board(jugador5, jugador6, List(carta12))
-    tablero4 = new Board(jugador7, jugador8, List())
+    board1 = new Board(player1, player2, List(card2))
+    board2 = new Board(player3, player4, List(card5))
+    board3 = new Board(player5, player6, List(card12))
+    board4 = new Board(player7, player8, List())
   }
 
-  test("Tableros") {
-    assert(!tablero1.equals(tablero2))
-    assert(!tablero1.equals(tablero3))
-    assert(!tablero1.equals(tablero4))
-    assert(!tablero2.equals(tablero3))
-    assert(!tablero2.equals(tablero4))
-    assert(!tablero3.equals(tablero4))
+  test("Boards") {
+    assert(!board1.equals(board2))
+    assert(!board1.equals(board3))
+    assert(!board1.equals(board4))
+    assert(!board2.equals(board3))
+    assert(!board2.equals(board4))
+    assert(!board3.equals(board4))
   }
 
-  test("Zona Clima") {
-    assertEquals(tablero1.zonaClima, zonaClima1, "error")
-    assertEquals(tablero2.zonaClima, zonaClima2, "error")
-    assertEquals(tablero3.zonaClima, zonaClima3, "error")
-    assertEquals(tablero4.zonaClima, zonaClima4, "error")
+  test("Weather Zone") {
+    assertEquals(board1.weatherZone, weatherZone1, "error")
+    assertEquals(board2.weatherZone, weatherZone2, "error")
+    assertEquals(board3.weatherZone, weatherZone3, "error")
+    assertEquals(board4.weatherZone, weatherZone4, "error")
   }
 
-  test("Jugar") {
-    tablero1.Jugar(jugador1, carta3)
-    assertEquals(jugador1.manoCartas, List[Card](carta4))
-    assertEquals(jugador1.seccionTablero.cuerpoACuerpo, List[CloseCombatCard](carta3))
+  test("Play") {
+    board1.Play(player1, card3)
+    assertEquals(player1.handCards, List[Card](card4))
+    assertEquals(player1.boardSection.close, List[CloseCombatCard](card3))
 
-    tablero2.Jugar(jugador3, carta9)
-    assertEquals(jugador3.manoCartas, List[Card]())
-    assertEquals(jugador3.seccionTablero.distancia, List[RangedCombatCard](carta9))
+    board2.Play(player3, card9)
+    assertEquals(player3.handCards, List[Card]())
+    assertEquals(player3.boardSection.ranged, List[RangedCombatCard](card9))
   }
 
-  test("Jugar carta clima") {
-    tablero3.Jugar(jugador5, carta2)
-    assertEquals(jugador5.manoCartas, List[Card](carta1, carta3, carta6))
-    assertEquals(tablero3.zonaClima, List[WeatherCard](carta12, carta2))
+  test("Play weather card") {
+    board3.Play(player5, card2)
+    assertEquals(player5.handCards, List[Card](card1, card3, card6))
+    assertEquals(board3.weatherZone, List[WeatherCard](card12, card2))
 
-    tablero4.Jugar(jugador8, carta12)
-    assertEquals(jugador8.manoCartas, List[Card](carta2, carta8))
-    assertEquals(tablero4.zonaClima, List[WeatherCard](carta12))
+    board4.Play(player8, card12)
+    assertEquals(player8.handCards, List[Card](card2, card8))
+    assertEquals(board4.weatherZone, List[WeatherCard](card12))
   }
 
-  test("Definiciones") {
-    assert(!jugador1.equals(tablero1))
-    assert(!tablero2.equals(carta3))
-    assert(!seccionTablero.equals(tablero3))
-    assert(!tablero4.equals(zonaClima2))
+  test("Definitions") {
+    assert(!player1.equals(board1))
+    assert(!board2.equals(card3))
+    assert(!boardSection.equals(board3))
+    assert(!board4.equals(weatherZone2))
   }
 
 }
