@@ -1,5 +1,5 @@
 package cl.uchile.dcc
-package gwent.Cards.Unidad
+package gwent.Cards.Unit
 
 import gwent.Cards.Card
 
