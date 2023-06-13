@@ -1,8 +1,8 @@
 package cl.uchile.dcc
-package gwent.Jugador
+package gwent.Player
 
-import gwent.Cartas.Card
-import gwent.Tablero.{boardSection, Board}
+import gwent.Cards.Card
+import gwent.Board.{boardSection, Board}
 import java.util.Objects
 
 /** It's a class that represents a player in the game.
