@@ -5,35 +5,35 @@ import gwent.Controller.GameController
 import gwent.Exception.InvalidTransitionException
 
 
-class EstadoJuego(val context: GameController) {
+class GameState(val context: GameController) {
   context.state = this
 
-  def toInicioPartida(): Unit = {
-    transitionError("InicioPartida")
+  def toStartGame(): Unit = {
+    transitionError("StartGame")
   }
 
-  def toJugadorJuega(): Unit = {
-    transitionError("JugadorJuega")
+  def toPlayerTurn(): Unit = {
+    transitionError("PlayerTurn")
   }
 
-  def toComputadorJuega(): Unit = {
-    transitionError("ComputadorJuega")
+  def toComputerTurn(): Unit = {
+    transitionError("ComputerTurn")
   }
 
-  def toOtroJuega(): Unit = {
-    transitionError("OtroJuega")
+  def toOtherTurn(): Unit = {
+    transitionError("OtherTurn")
   }
 
   def toFinalRound(): Unit = {
     transitionError("FinalRound")
   }
 
-  def toOtroRound(): Unit = {
-    transitionError("OtroRound")
+  def toAnotherRound(): Unit = {
+    transitionError("AnotherRound")
   }
 
-  def toFinPartida(): Unit = {
-    transitionError("FinPartida")
+  def toEndGame(): Unit = {
+    transitionError("EndGame")
   }
 
   def doAction(): Unit = {
