@@ -1,24 +1,24 @@
 package cl.uchile.dcc
 package gwent.Controller
 
-import gwent.Controller.States.{EstadoJuego, InicioPartida}
+import gwent.Controller.States.{GameState, StartGame}
 
-import gwent.Cartas.Cartas
-import gwent.Jugador.Jugador
-import gwent.Tablero.{SeccionTablero, Tablero}
+import gwent.Cards.Card
+import gwent.Player.Player
+import gwent.Board.{boardSection, Board}
 
 
 class GameController {
-  private var tablero: Option[Tablero] = None
-  private var jugadorActual: Option[Jugador] = None
-  private var jugadorPrevio: Option[Jugador] = None
-  private var seccionJugador: Option[SeccionTablero] = None
-  private var seccionComputador: Option[SeccionTablero] = None
-  //private val carta: Option[Cartas] = None
+  private var board: Option[Board] = None
+  private var currentPlayer: Option[Player] = None
+  private var previousPlayer: Option[Player] = None
+  private var playerSection: Option[boardSection] = None
+  private var computerSection: Option[boardSection] = None
+  private val card: Option[Card] = None
 
   //private var mazoJugador = List.empty[Cartas]
   //private var mazoComputador = List.empty[Cartas]
-  var estado: EstadoJuego = new InicioPartida(this)
+  var state: GameState = new StartGame(this)
 
 
   /** Player didn't play in his turn, so it's the computer's turn.
@@ -30,9 +30,9 @@ class GameController {
    * But, if computer passed first, it means the end of the round and maybe the end of the game.
    * @author Felipe Alfaro
    */
-  def pasarPlayer(): Unit = {
+  def passPlayer(): Unit = {
     println("You passed. It's the opponent's turn")
-    //tablero.get.Jugar(jugadorPrevio, carta.get)
+    //board.get.Play(previousPlayer, card)
   }
 
   /** The computer didn't play in his turn, so it's the player's turn.
@@ -45,9 +45,10 @@ class GameController {
    *
    * @author Felipe Alfaro
    */
-  def pasarPC(): Unit = {
+  def passComputer(): Unit = {
     println("Your opponent passed. It's your turn")
-    //tablero.get.Jugar(jugadorPrevio, carta.get)
+    val card: String = scala.io.StdIn.readLine()
+    //board.get.Play(previousPlayer.get, card)
   }
 
   /** Player play a card and added to the player's section of the board or the weather zone, corresponding to the type of card.
@@ -57,10 +58,10 @@ class GameController {
    * This function modifies the section of the board of the player or the weather zone.
    * @author Felipe Alfaro
    */
-  def jugarPlayer(): Unit = {
+  def PlayPlayer(): Unit = {
     println("Select a card")
-    val carta: String = scala.io.StdIn.readLine()
-    //tablero.get.Jugar(jugadorActual, carta.get)
+    val card: String = scala.io.StdIn.readLine()
+    //board.get.Play(currentPlayer.get, card)
   }
 
   /** The computed play a card and added to the computer's section of the board or the weather zone, corresponding to the type of card.
@@ -70,29 +71,29 @@ class GameController {
    * This function modifies the section of the board of the computer or the weather zone.
    * @author Felipe Alfaro
    */
-  def jugarPC(): Unit = {
-    //tablero.get.Jugar(jugadorActual, selection.get)
+  def PlayComputer(): Unit = {
+    //board.get.Play(currentPlayer.get, card)
   }
 
   // revuelve el mazo y reparte 10 cartas a la mano
-  def setMazo(): Unit = {
+  def setDeck(): Unit = {
 
   }
 
   // le agrega 3 cartas del current mazo a la current mano
-  def otraRonda(): Unit = {
+  def AnotherRound(): Unit = {
 
   }
 
 
 
-  def Comenzar(): Unit = {
+  def Starts(): Unit = {
     println("What's your name?")
     val name: String = scala.io.StdIn.readLine()
-    val jugador: Jugador = new Jugador(name, new SeccionTablero(), 2, List[Cartas](), List[Cartas]())
-    val computador: Jugador = new Jugador("Computador", new SeccionTablero(), 2, List[Cartas](), List[Cartas]())
+    val player: Player = new Player(name, new boardSection(), 2, List[Card](), List[Card]())
+    val computer: Player = new Player("computer", new boardSection(), 2, List[Card](), List[Card]())
     //println(s"$player begins ${}")
-    estado = new InicioPartida(this)
+    state = new StartGame(this)
   }
 
 }
