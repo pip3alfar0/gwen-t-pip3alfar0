@@ -1,10 +1,10 @@
 package cl.uchile.dcc
-package gwent.Tablero
+package gwent.Board
 
-import gwent.Cartas.{WeatherCard, Card}
+import gwent.Cards.{WeatherCard, Card}
 
-import gwent.Cartas.Unidad.AbstractUnitCard
-import gwent.Jugador.Player
+import gwent.Cards.Unit.AbstractUnitCard
+import gwent.Player.Player
 
 /** It's a class representing the board of the game.
  * This board is defined by two players and a weather zone.
