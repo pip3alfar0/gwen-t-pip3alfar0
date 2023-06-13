@@ -1,8 +1,8 @@
 package cl.uchile.dcc
-package gwent.Tablero
+package gwent.Board
 
-import gwent.Cartas.Card
-import gwent.Cartas.Unidad.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
+import gwent.Cards.Card
+import gwent.Cards.Unit.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
 
 /** It's a class that represents a the player's section of the board. 
  * 
