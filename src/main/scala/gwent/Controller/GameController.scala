@@ -92,7 +92,6 @@ class GameController {
     val name: String = scala.io.StdIn.readLine()
     val player: Player = new Player(name, new boardSection(), 2, List[Card](), List[Card]())
     val computer: Player = new Player("computer", new boardSection(), 2, List[Card](), List[Card]())
-    //println(s"$player begins ${}")
     state = new StartGame(this)
   }
 
@@ -114,6 +113,5 @@ override def attack(target: GameCharacter): Unit = {
    println(s"$name attacks ${target.name}")
 }
 
-class Jugador(val nombre: String, var seccionTablero: SeccionTablero, private val _contadorGemas: Int, private var _mazo: List[Cartas],
-              private var _manoCartas: List[Cartas])
+class Jugador(nombre: String,seccionTablero: SeccionTablero,_contadorGemas: Int,_mazo: List[Cartas],_manoCartas: List[Cartas])
 * */
