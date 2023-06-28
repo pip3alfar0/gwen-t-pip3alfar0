@@ -1,9 +1,11 @@
 package cl.uchile.dcc
-package gwent.Player
+package gwent.player
 
-import gwent.Cards.Card
-import gwent.Board.{boardSection, Board}
+import gwent.cards.Card
+import gwent.board.{BoardSection, Board}
 import java.util.Objects
+import gwent.cards.effects.Effect
+import gwent.player.Player
 
 /** It's a class that represents a player in the game.
  * This player is defined by a name, a board section, a gem counter, a deck of cards and a hand of cards.
@@ -29,11 +31,16 @@ import java.util.Objects
  * @author Felipe Alfaro
  * */
 
-class Player(val name: String, var boardSection: boardSection, private val _gemCounter: Int, private var _deck: List[Card],
+class Player(val name: String, var boardSection: BoardSection, private var _gemCounter: Int, private var _deck: List[Card],
              private var _handCards: List[Card]) {
 
     /** Accesor methos for the player's gem counter */
     def gemCounter: Int = _gemCounter
+
+    /** Setter of player's gem counter */
+    def gemCounter_=(gemCounter: Int): Unit = {
+        _gemCounter = gemCounter
+    }
 
     /** Accessor method for the player's deck */
     def deck: List[Card] = _deck
@@ -42,7 +49,7 @@ class Player(val name: String, var boardSection: boardSection, private val _gemC
     def handCards: List[Card] = _handCards
 
     /** The gem counter can not be negative */
-    require(gemCounter >= 0, "The gem counter can not be less than zero")
+    require(gemCounter >= 0, "The gem counter can not be less than zero") //gemCounter_ ?
 
     /** Select a card from your hand and place it on the board to perform an action.
      *
