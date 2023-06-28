@@ -1,23 +1,26 @@
 package cl.uchile.dcc
-package gwent.Controller
+package gwent.controller
 
-import gwent.Controller.States.{GameState, StartGame}
+import scala.io.StdIn
+import gwent.controller.states.{GameState, StartGame}
 
-import gwent.Cards.Card
-import gwent.Player.Player
-import gwent.Board.{boardSection, Board}
+import gwent.cards.Card
+import gwent.player.Player
+import gwent.board.{BoardSection, Board}
 
 
 class GameController {
   private var board: Option[Board] = None
   private var currentPlayer: Option[Player] = None
   private var previousPlayer: Option[Player] = None
-  private var playerSection: Option[boardSection] = None
-  private var computerSection: Option[boardSection] = None
+  private val player: Option[Player] = None
+  private val computer: Option[Player] = None
+  private var playerSection: Option[BoardSection] = None
+  private var computerSection: Option[BoardSection] = None
   private val card: Option[Card] = None
+  private var selection = List.empty[Card]
+  private var computerDeck = List.empty[Card]
 
-  //private var mazoJugador = List.empty[Cartas]
-  //private var mazoComputador = List.empty[Cartas]
   var state: GameState = new StartGame(this)
 
 
@@ -31,7 +34,7 @@ class GameController {
    * @author Felipe Alfaro
    */
   def passPlayer(): Unit = {
-    println("You passed. It's the opponent's turn")
+    //
     //board.get.Play(previousPlayer, card)
   }
 
@@ -45,10 +48,14 @@ class GameController {
    *
    * @author Felipe Alfaro
    */
-  def passComputer(): Unit = {
+  def passComputer(i: Int): Unit = {
     println("Your opponent passed. It's your turn")
-    val card: String = scala.io.StdIn.readLine()
-    //board.get.Play(previousPlayer.get, card)
+    //for (i <- player.get.handCards) {
+    //  println(s"Your cards are: ${player.get.handCards(i).name}")
+    //}
+    //val card: Int = StdIn.readInt()
+    //selection = Some(player.get.handCards(card))
+    //board.get.Play(previousPlayer.get, selection)
   }
 
   /** Player play a card and added to the player's section of the board or the weather zone, corresponding to the type of card.
@@ -59,8 +66,9 @@ class GameController {
    * @author Felipe Alfaro
    */
   def PlayPlayer(): Unit = {
-    println("Select a card")
-    val card: String = scala.io.StdIn.readLine()
+    println("Which card do you want to play?")
+    println("Your hand of cards: " + player.get.handCards) // + Player.handCards
+    //val card: String = scala.io.StdIn.readLine()
     //board.get.Play(currentPlayer.get, card)
   }
 
@@ -86,19 +94,38 @@ class GameController {
   }
 
 
-
   def Starts(): Unit = {
     println("What's your name?")
     val name: String = scala.io.StdIn.readLine()
-    val player: Player = new Player(name, new boardSection(), 2, List[Card](), List[Card]())
-    val computer: Player = new Player("computer", new boardSection(), 2, List[Card](), List[Card]())
+    val player: Player = new Player(name, new BoardSection(), 2, List[Card](), List[Card]())
+    val computer: Player = new Player("computer", new BoardSection(), 2, List[Card](), List[Card]())
     state = new StartGame(this)
   }
 
 }
 
 /*
-def promptSelection(): Unit = {
+class GameController {
+  private var playerCharacters = List.empty[PlayerCharacter]
+  private var enemyCharacters = List.empty[EnemyCharacter]
+  private val turnsQueue = mutable.Queue.empty[GameCharacter]
+  var state: GameState = new IdleState(this)
+  private var selection: Option[GameCharacter] = None
+  private var currentCharacter: Option[GameCharacter] = None
+  private val inventory = mutable.Map.empty[String, Item]
+
+  def startGame(
+      playerCharacters: List[String],
+      enemyCharacters: List[String]
+  ): Unit = {
+    playerCharacters.foreach(addPlayerCharacter)
+    enemyCharacters.foreach(addEnemyCharacter)
+    state = new IdleState(this)
+  }
+
+  def battle(): Unit = state.toSelectingTargetState()
+
+  def promptSelection(): Unit = {
     println("Select a character to attack")
     for (i <- enemyCharacters.indices) {
       println(s"$i: ${enemyCharacters(i).name}")
@@ -108,10 +135,39 @@ def promptSelection(): Unit = {
     state.doAction()
   }
 
+  def doAttack(): Unit = {
+    currentCharacter.get.attack(selection.get)
+  }
 
-override def attack(target: GameCharacter): Unit = {
-   println(s"$name attacks ${target.name}")
+  def addPotion(name: String, healing: Int): Unit = {
+    potionFactory.healing = Some(healing)
+    addToInventory(potionFactory, name)
+  }
+
+  def addEther(name: String, restore: Int): Unit = {
+    etherFactory.restore = Some(restore)
+    addToInventory(etherFactory, name)
+  }
+
+  def addPhoenixDown(name: String): Unit = {
+    addToInventory(phoenixDownFactory, name)
+  }
+
+  private def addToInventory[T <: Item](
+      factory: ItemFactory[T],
+      name: String
+  ): Unit = {
+    factory.name = Some(name)
+    val item = factory.createItem()
+    inventory += (item -> item)
+  }
+
+  def addPlayerCharacter(name: String): Unit = {
+    playerCharacters = playerCharacters :+ new PlayerCharacter(name)
+  }
+
+  def addEnemyCharacter(name: String): Unit = {
+    enemyCharacters = enemyCharacters :+ new EnemyCharacter(name)
+  }
 }
-
-class Jugador(nombre: String,seccionTablero: SeccionTablero,_contadorGemas: Int,_mazo: List[Cartas],_manoCartas: List[Cartas])
 * */
