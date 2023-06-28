@@ -1,7 +1,9 @@
 package cl.uchile.dcc
-package gwent.Cards.Unit
+package gwent.cards.unit
 
-import gwent.Cards.Card
+import gwent.cards.Card
+
+import cl.uchile.dcc.gwent.cards.effects.Effect
 
 import java.util.Objects
 
@@ -24,14 +26,11 @@ import java.util.Objects
  * @author Felipe Alfaro
  * */
 
-abstract class AbstractUnitCard protected(val name: String, val description: String, val power: Int) extends Card {
-
-  /** The current power of the card, which may be affected by various conditions during
-   * gameplay.
-   * Initially set to the base [[power]] of the card.
-   */
-  var currentPower: Int = power
-
+abstract class AbstractUnitCard protected(val name: String, 
+                                          val description: String, 
+                                          val power: Int,
+                                          val effect: Effect) extends UnitCard {
+  
   override def hashCode(): Int = {
     Objects.hash(classOf[AbstractUnitCard], name, description, power)
   }
