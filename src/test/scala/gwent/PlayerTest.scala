@@ -1,15 +1,17 @@
 package cl.uchile.dcc
 package gwent
 
-import gwent.Cards.{Card, WeatherCard}
-
-import gwent.Cards.Unit.{CloseCombatCard, RangedCombatCard, SiegeCombatCard}
-import gwent.Player.Player
-import gwent.Board.boardSection
+import gwent.cards.{Card, WeatherCard}
+import gwent.cards.unit.{CloseCombatCard, RangedCombatCard, SiegeCombatCard}
+import gwent.player.Player
+import gwent.board.*
+import gwent.cards.effects.weather.{BitingFrost, ClearWeather, ImpenetrableFog, TorrentialRain}
+import gwent.cards.effects.unit.{TightBond, MoraleBoost}
+import gwent.cards.effects.Effect
+import gwent.cards.effects.NullEffect
 
 
 class PlayerTest extends munit.FunSuite {
-
   val name1: String = "Constanza"
   val name2: String = "Emilio"
   val name3: String = "Diego"
@@ -21,9 +23,13 @@ class PlayerTest extends munit.FunSuite {
 
   val gemCounter: Int = 2
 
-  var boardSection = new boardSection()
-  var boardSection2: boardSection = _
-  var boardSection3: boardSection = _
+  var board1: Board = _
+  var board2: Board = _
+  var board3: Board = _
+
+  var boardSection = new BoardSection()
+  var boardSection2: BoardSection = _
+  var boardSection3: BoardSection = _
 
   var player1: Player = _  // null
   var player2: Player = _
@@ -33,6 +39,7 @@ class PlayerTest extends munit.FunSuite {
   var player6: Player = _
   var player7: Player = _
   var player8: Player = _
+  var player9: Player = _
 
   // for the Player's cards or deck's cards
   var card1: SiegeCombatCard = _ // null
@@ -50,22 +57,26 @@ class PlayerTest extends munit.FunSuite {
   var card13: WeatherCard = _
 
   override def beforeEach(context: BeforeEach): Unit = {
-    card1 = new SiegeCombatCard("card1", "SiegeCombat", 50)
-    card2 = new WeatherCard("card2", "Escarcha mordiente")
-    card3 = new CloseCombatCard("card3", "CloseCombat", 90)
-    card4 = new RangedCombatCard("card4", "RangedCombat", 35)
-    card5 = new WeatherCard("card5", "Niebla impenetrable")
-    card6 = new SiegeCombatCard("card6", "SiegeCombat", 70)
-    card7 = new CloseCombatCard("card7", "CloseCombat", 45)
-    card8 = new RangedCombatCard("card8", "RangedCombat", 25)
-    card9 = new RangedCombatCard("card9", "RangedCombat", 45)
-    card10 = new CloseCombatCard("card10", "CloseCombat", 60)
-    card11 = new SiegeCombatCard("card11", "SiegeCombat", 40)
-    card12 = new WeatherCard("card12", "Lluvia torrencial")
-    card13 = new WeatherCard("card13", "Clima despejado")
+    card1 = new SiegeCombatCard("card1", "SiegeCombat", 50, TightBond())
+    card2 = new WeatherCard("card2", "Biting Frost", BitingFrost())
+    card3 = new CloseCombatCard("card3", "CloseCombat", 90, NullEffect())
+    card4 = new RangedCombatCard("card4", "RangedCombat", 35, NullEffect())
+    card5 = new WeatherCard("card5", "Impenetrable Fog", ImpenetrableFog())
+    card6 = new SiegeCombatCard("card6", "SiegeCombat", 70, NullEffect())
+    card7 = new CloseCombatCard("card7", "CloseCombat", 45, TightBond())
+    card8 = new RangedCombatCard("card8", "RangedCombat", 25, NullEffect())
+    card9 = new RangedCombatCard("card9", "RangedCombat", 45, NullEffect())
+    card10 = new CloseCombatCard("card10", "CloseCombat", 60, BitingFrost())
+    card11 = new SiegeCombatCard("card11", "SiegeCombat", 40, NullEffect())
+    card12 = new WeatherCard("card12", "Torrential Rain", TorrentialRain())
+    card13 = new WeatherCard("card13", "Clear Weather", ClearWeather())
 
-    boardSection2 = new boardSection(List(card8), List(), List(card10))
-    boardSection3 = new boardSection(List(), List(card1), List())
+    board1 = new Board(player1, player9, List[WeatherCard]())
+    board2 = new Board(player2, player8, List[WeatherCard]())
+    board3 = new Board(player3, player7, List[WeatherCard]())
+
+    boardSection2 = new BoardSection(List(card8), List(), List(card10))
+    boardSection3 = new BoardSection(List(), List(card1), List())
 
     player1 = new Player("Constanza", boardSection, 2, List[Card](card1), List[Card](card3, card4))
     player2 = new Player("Emilio", boardSection, 2, List[Card](card4, card6), List[Card](card7, card12))
@@ -75,6 +86,7 @@ class PlayerTest extends munit.FunSuite {
     player6 = new Player("Blanquita", boardSection, 2, List[Card](card9, card10), List[Card](card11, card12))
     player7 = new Player("Simón", boardSection, 2, List[Card](), List[Card](card10, card7))
     player8 = new Player("Aki", boardSection, 2, List[Card](card11, card9, card6, card3), List[Card](card2, card12, card8))
+    player9 = new Player("Kitty", boardSection, 2, List[Card](), List[Card](card13, card12))
   }
 
   test("Equals"){
@@ -86,6 +98,7 @@ class PlayerTest extends munit.FunSuite {
     assertEquals(player6, player6)
     assertEquals(player7, player7)
     assertEquals(player8, player8)
+    assertEquals(player9, player9)
 
     assert(!player1.equals(player2))
     assert(!player2.equals(player3))
@@ -94,7 +107,8 @@ class PlayerTest extends munit.FunSuite {
     assert(!player5.equals(player6))
     assert(!player6.equals(player7))
     assert(!player7.equals(player8))
-    assert(!player8.equals(player1))
+    assert(!player8.equals(player9))
+    assert(!player9.equals(player1))
     
     assertEquals(player1, new Player("Constanza", boardSection, 2, List[Card](card1), List[Card](card3, card4)))
     assertEquals(player2, new Player("Emilio", boardSection, 2, List[Card](card4, card6), List[Card](card7, card12)))
@@ -104,6 +118,7 @@ class PlayerTest extends munit.FunSuite {
     assertEquals(player6, new Player("Blanquita", boardSection, 2, List[Card](card9, card10), List[Card](card11, card12)))
     assertEquals(player7, new Player("Simón", boardSection, 2, List[Card](), List[Card](card10, card7)))
     assertEquals(player8, new Player("Aki", boardSection, 2, List[Card](card11, card9, card6, card3), List[Card](card2, card12, card8)))
+    assertEquals(player9, new Player("Kitty", boardSection, 2, List[Card](), List[Card](card13, card12)))
     
     assert(!player1.equals(new Player("Emilio", boardSection, 2, List[Card](card4, card6), List[Card](card7, card12))))
     assert(!player2.equals(new Player("Diego", boardSection, 2, List[Card](card1, card2, card5), List[Card]())))
@@ -112,7 +127,8 @@ class PlayerTest extends munit.FunSuite {
     assert(!player5.equals(new Player("Blanquita", boardSection, 2, List[Card](card9, card10), List[Card](card11, card12))))
     assert(!player6.equals(new Player("Simón", boardSection, 2, List[Card](), List[Card](card10, card7))))
     assert(!player7.equals(new Player("Aki", boardSection, 2, List[Card](card11, card9, card6, card3), List[Card](card2, card12, card8))))
-    assert(!player8.equals(new Player("Constanza", boardSection, 2, List[Card](card1), List[Card](card3, card4))))
+    assert(!player8.equals(new Player("Kitty", boardSection, 2, List[Card](), List[Card](card13, card12))))
+    assert(!player9.equals(new Player("Constanza", boardSection, 2, List[Card](card1), List[Card](card3, card4))))
   }
 
   test("hashCode") {
@@ -123,7 +139,8 @@ class PlayerTest extends munit.FunSuite {
     assert(player5.hashCode() != player6.hashCode())
     assert(player6.hashCode() != player7.hashCode())
     assert(player7.hashCode() != player8.hashCode())
-    assert(player8.hashCode() != player1.hashCode())
+    assert(player8.hashCode() != player9.hashCode())
+    assert(player9.hashCode() != player1.hashCode())
 
     assert(player1.hashCode() == (new Player("Constanza", boardSection, 2, List[Card](card1), List[Card](card3, card4))).hashCode())
     assert(player2.hashCode() == (new Player("Emilio", boardSection, 2, List[Card](card4, card6), List[Card](card7, card12))).hashCode())
@@ -133,6 +150,7 @@ class PlayerTest extends munit.FunSuite {
     assert(player6.hashCode() == (new Player("Blanquita", boardSection, 2, List[Card](card9, card10), List[Card](card11, card12))).hashCode())
     assert(player7.hashCode() == (new Player("Simón", boardSection, 2, List[Card](), List[Card](card10, card7))).hashCode())
     assert(player8.hashCode() == (new Player("Aki", boardSection, 2, List[Card](card11, card9, card6, card3), List[Card](card2, card12, card8))).hashCode())
+    assert(player9.hashCode() == (new Player("Kitty", boardSection, 2, List[Card](), List[Card](card13, card12))).hashCode())
   }
 
   test("Name") {
@@ -156,23 +174,23 @@ class PlayerTest extends munit.FunSuite {
   }
 
   test("Gem Counter") {
-    assertEquals(player1.gemCounter, "2")
-    assertEquals(player2.gemCounter, "2")
-    assertEquals(player3.gemCounter, "2")
-    assertEquals(player4.gemCounter, "2")
-    assertEquals(player5.gemCounter, "2")
-    assertEquals(player6.gemCounter, "2")
-    assertEquals(player7.gemCounter, "2")
-    assertEquals(player8.gemCounter, "2")
+    assertEquals(player1.gemCounter, 2)
+    assertEquals(player2.gemCounter, 2)
+    assertEquals(player3.gemCounter, 2)
+    assertEquals(player4.gemCounter, 2)
+    assertEquals(player5.gemCounter, 2)
+    assertEquals(player6.gemCounter, 2)
+    assertEquals(player7.gemCounter, 2)
+    assertEquals(player8.gemCounter, 2)
 
-    assert(!player1.gemCounter.equals("5"))
-    assert(!player2.gemCounter.equals("5"))
-    assert(!player3.gemCounter.equals("5"))
-    assert(!player4.gemCounter.equals("5"))
-    assert(!player5.gemCounter.equals("5"))
-    assert(!player6.gemCounter.equals("5"))
-    assert(!player7.gemCounter.equals("5"))
-    assert(!player8.gemCounter.equals("5"))
+    assert(!player1.gemCounter.equals(5))
+    assert(!player2.gemCounter.equals(5))
+    assert(!player3.gemCounter.equals(5))
+    assert(!player4.gemCounter.equals(5))
+    assert(!player5.gemCounter.equals(5))
+    assert(!player6.gemCounter.equals(5))
+    assert(!player7.gemCounter.equals(5))
+    assert(!player8.gemCounter.equals(5))
   }
 
   test("Deck") {
@@ -184,6 +202,7 @@ class PlayerTest extends munit.FunSuite {
     assertEquals(player6.deck, List[Card](card9, card10))
     assertEquals(player7.deck, List[Card]())
     assertEquals(player8.deck, List[Card](card11, card9, card6, card3))
+    assertEquals(player9.deck, List[Card]())
 
     assert(!player1.deck.equals(List[Card](card3)))
     assert(!player2.deck.equals(List[Card](card6, card4)))
@@ -193,6 +212,7 @@ class PlayerTest extends munit.FunSuite {
     assert(!player6.deck.equals(List[Card](card5)))
     assert(!player7.deck.equals(List[Card](card3, card2, card5)))
     assert(!player8.deck.equals(List[Card](card10, card9, card8)))
+    assert(!player9.deck.equals(List[Card](card1)))
   }
 
   test("Hand of cards") {
@@ -204,6 +224,7 @@ class PlayerTest extends munit.FunSuite {
     assertEquals(player6.handCards, List[Card](card11, card12))
     assertEquals(player7.handCards, List[Card](card10, card7))
     assertEquals(player8.handCards, List[Card](card2, card12, card8))
+    assertEquals(player9.handCards, List[Card](card13, card12))
 
     assert(!player1.handCards.equals(List[Card](card4, card2)))
     assert(!player2.handCards.equals(List[Card](card12)))
@@ -213,28 +234,44 @@ class PlayerTest extends munit.FunSuite {
     assert(!player6.handCards.equals(List[Card](card5)))
     assert(!player7.handCards.equals(List[Card](card3, card2)))
     assert(!player8.handCards.equals(List[Card](card10, card9, card8)))
+    assert(!player9.handCards.equals(List[Card](card11)))
+  }
+
+  test("Play") {
+    val expected1 = new Player("Simón", new BoardSection(List(), List(), List(card10)),
+      2, List[Card](), List[Card](card10, card7))
+    player7.Play(card10, board3)
+    assertEquals(expected1, player7, "error")
+
+    val expected2 = new Board(player2, player8, List(card12))
+    player8.Play(card12, board2) //weather
+    assertEquals(expected2, board2, "error")
+
+    val expected3 = new Board(player1, player9, List(card13))
+    player9.Play(card13, board1) //weather
+    assertEquals(expected3, board1, "error")
   }
   
   test("Steal") {
-    val expected1 = new Player("Constanza", boardSection, 2, List[Card](), List[Card](card1, card3, card4))
+    val expected4 = new Player("Constanza", boardSection, 2, List[Card](), List[Card](card1, card3, card4))
     player1.Steal()
-    assertEquals(expected1, player1, "error")
+    assertEquals(expected4, player1, "error")
 
-    val expected2 = new Player("Emilio", boardSection, 2, List[Card](card6), List[Card](card4, card7, card12))
+    val expected5 = new Player("Emilio", boardSection, 2, List[Card](card6), List[Card](card4, card7, card12))
     player2.Steal()
-    assertEquals(expected2, player2, "error")
+    assertEquals(expected5, player2, "error")
 
-    val expected3 = new Player("Diego", boardSection, 2, List[Card](card2, card5), List[Card](card1))
+    val expected6 = new Player("Diego", boardSection, 2, List[Card](card2, card5), List[Card](card1))
     player3.Steal()
-    assertEquals(expected3, player3, "error")
+    assertEquals(expected6, player3, "error")
 
-    val expected4 = new Player("Agustín", boardSection, 2, List[Card](card6), List[Card](card8, card2))
+    val expected7 = new Player("Agustín", boardSection, 2, List[Card](card6), List[Card](card8, card2))
     player4.Steal()
-    assertEquals(expected4, player4, "error")
+    assertEquals(expected7, player4, "error")
 
-    val expected5 = new Player("Cucha", boardSection, 2, List[Card](card5, card2, card7), List[Card](card4, card1, card3, card6, card10))
+    val expected8 = new Player("Cucha", boardSection, 2, List[Card](card5, card2, card7), List[Card](card4, card1, card3, card6, card10))
     player5.Steal()
-    assertEquals(expected5, player5, "error")
+    assertEquals(expected8, player5, "error")
   }
 
   test("Board Section") {
@@ -266,7 +303,7 @@ class PlayerTest extends munit.FunSuite {
     assert(!player3.deck.equals(List[Card](card2, card5)))
     assert(!player3.deck.equals(List[Card](card5, card2, card7)))
     assert(!player3.deck.equals(List[Card](card11, card9, card10)))
-    assert(!player3.deck.equals(List[Card](card2, card11, card9, card16, card3)))
+    assert(!player3.deck.equals(List[Card](card2, card11, card9, card6, card3)))
   }
   
   test("Definitions") {
