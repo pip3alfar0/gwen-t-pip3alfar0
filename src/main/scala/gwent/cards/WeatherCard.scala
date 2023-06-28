@@ -1,10 +1,12 @@
 package cl.uchile.dcc
-package gwent.Cards
+package gwent.cards
 
-import gwent.Cards.Card
+import gwent.cards.Card
+import gwent.player.Player
+import gwent.board.Board
 
-import gwent.Player.Player
-import gwent.Board.Board
+import cl.uchile.dcc.gwent.cards.effects.Effect
+
 import java.util.Objects
 
 
@@ -21,7 +23,7 @@ import java.util.Objects
  * @author Felipe Alfaro
  * */
 
-class WeatherCard(val name: String, val description: String) extends Card {
+class WeatherCard(val name: String, val description: String, val effect: Effect) extends Card {
   
   /** Player play a weather card and added to the weather zone.
    *
