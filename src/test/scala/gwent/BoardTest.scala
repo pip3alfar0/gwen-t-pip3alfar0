@@ -1,10 +1,15 @@
 package cl.uchile.dcc
 package gwent
 
-import gwent.Cards.{WeatherCard, Card}
-import gwent.Cards.Unit.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
-import gwent.Player.Player
-import gwent.Board.{boardSection, Board}
+import gwent.cards.{Card, WeatherCard}
+import gwent.cards.unit.{CloseCombatCard, RangedCombatCard, SiegeCombatCard}
+import gwent.player.Player
+import gwent.board.{Board, BoardSection}
+import gwent.cards.effects.weather.{BitingFrost, ImpenetrableFog, TorrentialRain}
+import gwent.cards.effects.unit.{TightBond, MoraleBoost}
+import gwent.cards.effects.Effect
+import gwent.cards.effects.NullEffect
+
 
 class BoardTest extends munit.FunSuite {
 
@@ -18,7 +23,7 @@ class BoardTest extends munit.FunSuite {
   var weatherZone3: List[WeatherCard] = _
   var weatherZone4: List[WeatherCard] = _
 
-  var boardSection = new boardSection()
+  var boardSection = new BoardSection()
 
   var player1: Player = _
   var player2: Player = _
@@ -43,18 +48,18 @@ class BoardTest extends munit.FunSuite {
   var card12: WeatherCard = _
 
   override def beforeEach(context: BeforeEach): Unit = {
-    card1 = new SiegeCombatCard("card1", "SiegeCombat", 50)
-    card2 = new WeatherCard("card2", "a")
-    card3 = new CloseCombatCard("card3", "CloseCombat", 90)
-    card4 = new RangedCombatCard("card4", "RangeCombat", 35)
-    card5 = new WeatherCard("card5", "b")
-    card6 = new SiegeCombatCard("card6", "SiegeCombat", 70)
-    card7 = new CloseCombatCard("card7", "CloseCombat", 45)
-    card8 = new RangedCombatCard("card8", "RangeCombat", 25)
-    card9 = new RangedCombatCard("card9", "RangeCombat", 45)
-    card10 = new CloseCombatCard("card10", "CloseCombat", 60)
-    card11 = new SiegeCombatCard("card11", "SiegeCombat", 40)
-    card12 = new WeatherCard("card12", "c")
+    card1 = new SiegeCombatCard("card1", "SiegeCombat", 50, MoraleBoost())
+    card2 = new WeatherCard("card2", "BitingFrost", BitingFrost())
+    card3 = new CloseCombatCard("card3", "CloseCombat", 90, TightBond())
+    card4 = new RangedCombatCard("card4", "RangeCombat", 35, NullEffect())
+    card5 = new WeatherCard("card5", "ImpenetrableFog", ImpenetrableFog())
+    card6 = new SiegeCombatCard("card6", "SiegeCombat", 70, NullEffect())
+    card7 = new CloseCombatCard("card7", "CloseCombat", 45, NullEffect())
+    card8 = new RangedCombatCard("card8", "RangeCombat", 25, NullEffect())
+    card9 = new RangedCombatCard("card9", "RangeCombat", 45, TightBond())
+    card10 = new CloseCombatCard("card10", "CloseCombat", 60, MoraleBoost())
+    card11 = new SiegeCombatCard("card11", "SiegeCombat", 40, NullEffect())
+    card12 = new WeatherCard("card12", "TorrentialRain", TorrentialRain())
 
     player1 = new Player("Constanza", boardSection, 2, List[Card](card1), List[Card](card3, card4))
     player2 = new Player("Emilio", boardSection, 2, List[Card](card4, card6), List[Card](card7, card12))
