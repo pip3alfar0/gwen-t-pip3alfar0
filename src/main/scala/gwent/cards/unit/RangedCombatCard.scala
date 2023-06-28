@@ -1,10 +1,11 @@
 package cl.uchile.dcc
-package gwent.Cards.Unit
+package gwent.cards.unit
 
-import gwent.Cards.Unit.AbstractUnitCard
+import gwent.cards.unit.AbstractUnitCard
+import gwent.player.Player
+import gwent.board.Board
 
-import gwent.Player.Player
-import gwent.Board.Board
+import cl.uchile.dcc.gwent.cards.effects.Effect
 
 /** Class representing a ranged combat unit card in the game.
  *
@@ -21,7 +22,8 @@ import gwent.Board.Board
  * @author Felipe Alfaro
  */
 
-class RangedCombatCard(name: String, description: String, power: Int) extends AbstractUnitCard(name, description, power) {
+class RangedCombatCard(name: String, description: String, 
+                       power: Int, effect: Effect) extends AbstractUnitCard(name, description, power, effect) {
 
   /** Play a ranged combat card and added to the ranged combat card zone.
    *
