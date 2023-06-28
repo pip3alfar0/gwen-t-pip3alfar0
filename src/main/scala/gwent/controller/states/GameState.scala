@@ -1,16 +1,16 @@
 package cl.uchile.dcc
-package gwent.Controller.States
+package gwent.controller.states
 
-import gwent.Controller.GameController
-import gwent.Exception.InvalidTransitionException
+import gwent.controller.GameController
+import gwent.exception.InvalidTransitionException
 
 
 class GameState(val context: GameController) {
   context.state = this
 
-  def toStartGame(): Unit = {
-    transitionError("StartGame")
-  }
+  //def toStartGame(): Unit = {
+    //transitionError("StartGame")
+  //}
 
   def toPlayerTurn(): Unit = {
     transitionError("PlayerTurn")
@@ -37,6 +37,7 @@ class GameState(val context: GameController) {
   }
 
   def doAction(): Unit = {
+    // do nothing
   }
 
   private def transitionError(targetState: String): Unit = {
