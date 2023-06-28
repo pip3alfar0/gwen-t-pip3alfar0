@@ -1,10 +1,10 @@
 package cl.uchile.dcc
-package gwent.Board
+package gwent.board
 
-import gwent.Cards.Card
-import gwent.Cards.Unit.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
+import gwent.cards.Card
+import gwent.cards.unit.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
 
-/** It's a class that represents a the player's section of the board. 
+/** It's a class that represents the player's section of the board. 
  * 
  * This player's section board is defined by a list of siege combat cards, a list of close combat cards and a list of ranged combat cards.
  *
@@ -15,7 +15,7 @@ import gwent.Cards.Unit.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
  * @author Felipe Alfaro
  * */
 
-class boardSection(var ranged: List[RangedCombatCard] = List(), var siege: List[SiegeCombatCard] = List(),
+class BoardSection(var ranged: List[RangedCombatCard] = List(), var siege: List[SiegeCombatCard] = List(),
                    var close: List[CloseCombatCard] = List()) {
 
   /** Play a ranged combat card and added to the ranged combat card zone.
@@ -28,6 +28,7 @@ class boardSection(var ranged: List[RangedCombatCard] = List(), var siege: List[
    */
   def PlayRanged(card: RangedCombatCard): Unit = {
     ranged = card :: ranged
+    card.effect(card, ranged)
   }
 
   /** Play a siege combat card and added to the siege combat card zone.
@@ -40,6 +41,7 @@ class boardSection(var ranged: List[RangedCombatCard] = List(), var siege: List[
    */
   def PlaySiege(card: SiegeCombatCard): Unit = {
     siege = card :: siege
+    card.effect(card, siege)
   }
 
   /** Play a close combat card and added to the close combat card zone.
@@ -52,6 +54,7 @@ class boardSection(var ranged: List[RangedCombatCard] = List(), var siege: List[
    */
   def PlayClose(card: CloseCombatCard): Unit = {
     close = card :: close
+    card.effect(card, close)
   }
   
 }
