@@ -1,8 +1,9 @@
 package cl.uchile.dcc
-package gwent.Cards
+package gwent.cards
 
-import gwent.Player.Player
-import gwent.Board.Board
+import gwent.player.Player
+import gwent.board.Board
+import gwent.cards.effects.Effect
 
 /** It's a trait that represents a card of the game.
  *
@@ -30,6 +31,11 @@ trait Card {
    * This is an immutable property.
    */
   val description: String
+
+  /** The effect of the card.
+   * This is an immutable property.
+   */
+  val effect: Effect
 
   /** Player play a card and added to the card's section.
    * 
