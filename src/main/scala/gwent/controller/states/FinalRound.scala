@@ -1,7 +1,7 @@
 package cl.uchile.dcc
-package gwent.Controller.States
+package gwent.controller.states
 
-import gwent.Controller.GameController
+import gwent.controller.GameController
 
 class FinalRound(context: GameController) extends GameState(context) {
 
