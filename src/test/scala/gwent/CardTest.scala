@@ -1,11 +1,15 @@
 package cl.uchile.dcc
 package gwent
 
-import gwent.Cards.{WeatherCard, Card}
+import gwent.cards.{Card, WeatherCard}
+import gwent.cards.unit.{CloseCombatCard, RangedCombatCard, SiegeCombatCard, UnitCard}
+import gwent.player.Player
+import gwent.board.BoardSection
+import gwent.cards.effects.weather.{BitingFrost, TorrentialRain}
+import gwent.cards.effects.unit.{TightBond, MoraleBoost}
+import gwent.cards.effects.Effect
+import gwent.cards.effects.NullEffect
 
-import cl.uchile.dcc.gwent.Cards.Unit.{SiegeCombatCard, CloseCombatCard, RangedCombatCard}
-import cl.uchile.dcc.gwent.Player.Player
-import cl.uchile.dcc.gwent.Board.boardSection
 
 class CardTest extends munit.FunSuite {
     val name1: String = "card1"
@@ -18,9 +22,9 @@ class CardTest extends munit.FunSuite {
     val name8: String = "card8"
 
     val description1: String = "SiegeCombat"
-    val description2: String = "a"
+    val description2: String = "Torrential Rain"
     val description3: String = "CloseCombat"
-    val description4: String = "b"
+    val description4: String = "Biting Frost"
     val description5: String = "RangedCombat"
 
     val power1: Int = 50
@@ -41,14 +45,14 @@ class CardTest extends munit.FunSuite {
 
 
     override def beforeEach(context: BeforeEach): Unit = {
-        card1 = new SiegeCombatCard("card1", "SiegeCombat", 50)
-        card2 = new WeatherCard("card2", "a")
-        card3 = new CloseCombatCard("card3", "CloseCombat", 90)
-        card4 = new RangedCombatCard("card4", "RangedCombat", 35)
-        card5 = new WeatherCard("card5", "b")
-        card6 = new SiegeCombatCard("card6", "SiegeCombat", 70)
-        card7 = new CloseCombatCard("card7", "CloseCombat", 45)
-        card8 = new RangedCombatCard("card8", "RangedCombat", 25)
+        card1 = new SiegeCombatCard("card1", "SiegeCombat", 50, TightBond())
+        card2 = new WeatherCard("card2", "Torrential Rain", TorrentialRain())
+        card3 = new CloseCombatCard("card3", "CloseCombat", 90, NullEffect())
+        card4 = new RangedCombatCard("card4", "RangedCombat", 35, NullEffect())
+        card5 = new WeatherCard("card5", "Biting Frost", BitingFrost())
+        card6 = new SiegeCombatCard("card6", "SiegeCombat", 70, MoraleBoost())
+        card7 = new CloseCombatCard("card7", "CloseCombat", 45, NullEffect())
+        card8 = new RangedCombatCard("card8", "RangedCombat", 25, NullEffect())
     }
 
     test("Equals"){
@@ -61,23 +65,23 @@ class CardTest extends munit.FunSuite {
         card7.equals(card7)
         card8.equals(card8)
 
-        assertEquals(card1, new SiegeCombatCard("card1", "SiegeCombat", 50))
-        assertEquals(card2, new WeatherCard("card2", "a"))
-        assertEquals(card3, new CloseCombatCard("card3", "CloseCombat", 90))
-        assertEquals(card4, new RangedCombatCard("card4", "RangedCombat", 35))
-        assertEquals(card5, new WeatherCard("card5", "b"))
-        assertEquals(card6, new SiegeCombatCard("card6", "SiegeCombat", 70))
-        assertEquals(card7, new CloseCombatCard("card7", "CloseCombat", 45))
-        assertEquals(card8, new RangedCombatCard("card8", "RangedCombat", 25))
+        assertEquals(card1, new SiegeCombatCard("card1", "SiegeCombat", 50, TightBond()))
+        assertEquals(card2, new WeatherCard("card2", "Torrential Rain", TorrentialRain()))
+        assertEquals(card3, new CloseCombatCard("card3", "CloseCombat", 90, NullEffect()))
+        assertEquals(card4, new RangedCombatCard("card4", "RangedCombat", 35, NullEffect()))
+        assertEquals(card5, new WeatherCard("card5", "Biting Frost", BitingFrost()))
+        assertEquals(card6, new SiegeCombatCard("card6", "SiegeCombat", 70, MoraleBoost()))
+        assertEquals(card7, new CloseCombatCard("card7", "CloseCombat", 45, NullEffect()))
+        assertEquals(card8, new RangedCombatCard("card8", "RangedCombat", 25, NullEffect()))
 
-        assert(!card1.equals(new WeatherCard("card2", "a")))
-        assert(!card2.equals(new CloseCombatCard("card3", "CloseCombat", 90)))
-        assert(!card3.equals(new RangedCombatCard("card4", "RangedCombat", 35)))
-        assert(!card4.equals(new WeatherCard("card5", "b")))
-        assert(!card5.equals(new SiegeCombatCard("card6", "SiegeCombat", 70)))
-        assert(!card6.equals(new CloseCombatCard("card7", "CloseCombat", 45)))
-        assert(!card7.equals(new RangedCombatCard("card8", "RangedCombat", 25)))
-        assert(!card8.equals(new SiegeCombatCard("card1", "SiegeCombat", 50)))
+        assert(!card1.equals(new WeatherCard("card2", "Torrential Rain", TorrentialRain())))
+        assert(!card2.equals(new CloseCombatCard("card3", "CloseCombat", 90, NullEffect())))
+        assert(!card3.equals(new RangedCombatCard("card4", "RangedCombat", 35, NullEffect())))
+        assert(!card4.equals(new WeatherCard("card5", "Biting Frost", BitingFrost())))
+        assert(!card5.equals(new SiegeCombatCard("card6", "SiegeCombat", 70, MoraleBoost())))
+        assert(!card6.equals(new CloseCombatCard("card7", "CloseCombat", 45, NullEffect())))
+        assert(!card7.equals(new RangedCombatCard("card8", "RangedCombat", 25, NullEffect())))
+        assert(!card8.equals(new SiegeCombatCard("card1", "SiegeCombat", 50, TightBond())))
 
         assertEquals(card1, card1)
         assertEquals(card2, card2)
@@ -127,14 +131,14 @@ class CardTest extends munit.FunSuite {
         assert(card7.hashCode()!=card8.hashCode())
         assert(card8.hashCode()!=card1.hashCode())
         
-        assert(card1.hashCode() == (new SiegeCombatCard("card1", "SiegeCombat", 50)).hashCode())
-        assert(card2.hashCode() == (new WeatherCard("card2", "a")).hashCode())
-        assert(card3.hashCode() == (new CloseCombatCard("card3", "CloseCombat", 90)).hashCode())
-        assert(card4.hashCode() == (new RangedCombatCard("card4", "RangedCombat", 35)).hashCode())
-        assert(card5.hashCode() == (new WeatherCard("card5", "b")).hashCode())
-        assert(card6.hashCode() == (new SiegeCombatCard("card6", "SiegeCombat", 70)).hashCode())
-        assert(card7.hashCode() == (new CloseCombatCard("card7", "CloseCombat", 45)).hashCode())
-        assert(card8.hashCode() == (new RangedCombatCard("card8", "RangedCombat", 25)).hashCode())
+        assert(card1.hashCode() == (new SiegeCombatCard("card1", "SiegeCombat", 50, TightBond())).hashCode())
+        assert(card2.hashCode() == (new WeatherCard("card2", "Torrential Rain", TorrentialRain())).hashCode())
+        assert(card3.hashCode() == (new CloseCombatCard("card3", "CloseCombat", 90, NullEffect())).hashCode())
+        assert(card4.hashCode() == (new RangedCombatCard("card4", "RangedCombat", 35, NullEffect())).hashCode())
+        assert(card5.hashCode() == (new WeatherCard("card5", "Biting Frost", BitingFrost())).hashCode())
+        assert(card6.hashCode() == (new SiegeCombatCard("card6", "SiegeCombat", 70, MoraleBoost())).hashCode())
+        assert(card7.hashCode() == (new CloseCombatCard("card7", "CloseCombat", 45, NullEffect())).hashCode())
+        assert(card8.hashCode() == (new RangedCombatCard("card8", "RangedCombat", 25, NullEffect())).hashCode())
     }
 
     test("Name") {
@@ -193,6 +197,10 @@ class CardTest extends munit.FunSuite {
         assert(!card8.power.equals(power1))
     }
 
+    test("Effect") {
+
+    }
+
     test("Definitions") {
         assert(!card1.power.equals(name1))
         assert(!card2.name.equals(power6))
@@ -205,8 +213,8 @@ class CardTest extends munit.FunSuite {
     }
 
     test("Player") {
-        assert(!card1.equals(new Player("Simba", new boardSection(), 2, List[Card](), List[Card]())))
-        assert(!card2.equals(new Player("Kitty", new boardSection(), 2, List[Card](), List[Card]())))
+        assert(!card1.equals(new Player("Simba", new BoardSection(), 2, List[Card](), List[Card]())))
+        assert(!card2.equals(new Player("Kitty", new BoardSection(), 2, List[Card](), List[Card]())))
     }
 
 }
