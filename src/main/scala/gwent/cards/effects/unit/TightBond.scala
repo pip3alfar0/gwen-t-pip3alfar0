@@ -8,7 +8,7 @@ import gwent.cards.effects.AbstractEffect
 /** It's a class that represents the unit card effect called Close Bond
  *
  * */
-case class CloseBond() extends AbstractEffect {
+case class TightBond() extends AbstractEffect {
 
   /** Duplicates the current power of all the cards on the board's section where the card was played 
    * who are called exactly as the played card */
