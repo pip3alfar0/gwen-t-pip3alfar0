@@ -13,5 +13,5 @@ class AnotherRound(context: GameController) extends GameState(context) {
   override def toComputerTurn(): Unit = {
     context.state = new ComputerTurn(context)
   }
-  
+
 }
