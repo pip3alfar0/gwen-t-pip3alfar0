@@ -21,7 +21,6 @@ class BoardSection(var ranged: List[RangedCombatCard] = List(), var siege: List[
   /** Play a ranged combat card and added to the ranged combat card zone.
    *
    * Play a ranged combat card and added to the ranged combat card zone is defined as the original list of ranged combat cards in that zone plus the played ranged combat card.
-   *
    * This function modifies the list of ranged combat cards that are in the ranged combat zone.
    *
    * @param card The played ranged combat card that will be added to the ranged combat zone.
