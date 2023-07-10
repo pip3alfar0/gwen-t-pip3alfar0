@@ -8,10 +8,6 @@ import gwent.exception.InvalidTransitionException
 class GameState(val context: GameController) {
   context.state = this
 
-  //def toStartGame(): Unit = {
-    //transitionError("StartGame")
-  //}
-
   def toPlayerTurn(): Unit = {
     transitionError("PlayerTurn")
   }
@@ -36,7 +32,7 @@ class GameState(val context: GameController) {
     transitionError("EndGame")
   }
 
-  def doAction(): Unit = {
+  def pass(): Unit = {
     // do nothing
   }
 
