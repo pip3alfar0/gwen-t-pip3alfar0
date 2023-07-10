@@ -1,5 +1,5 @@
-package cl.uchile.dcc.gwent.exception
+package cl.uchile.dcc
+package gwent.exception
 
-class InvalidMethodException {
-
-}
+class InvalidMethodException(message: String)
+  extends Exception(message)
