@@ -153,10 +153,10 @@ class EffectTest extends munit.FunSuite {
       "Scorch - Siege: Destroys your enemy's strongest Siege Combat unit(s) if the combined strength of all his or her Siege Combat units is 10 or more.",
       8, NullEffect())
 
-    player1 = new Player("Constanza", BoardSection(), 2, List[Card](card1, card5, card8, card14, card25), List[Card](card3, card9, card10, card15, card28))
-    player2 = new Player("Valentina", BoardSection(List(), List(), List(card7)), 2, List[Card](card2, card4, card6, card11, card13, card31), List[Card](card7, card12, card16, card18, card20, card22))
-    player3 = new Player("Julián", BoardSection(List(), List(card37), List()), 2, List[Card](card1, card2, card5), List[Card](card12, card40, card37, card19, card38, card23, card24))
-    player4 = new Player("Joaquín", BoardSection(), 2, List[Card](card8, card6, card10), List[Card](card4, card20, card32, card17, card35, card9, card25))
+    player1 = new Player("Constanza", BoardSection(List(card22), List(card36), List(card11)), 2, List[Card](), List[Card](card1, card5, card8, card14, card25, card3, card9, card10, card15, card28))
+    player2 = new Player("Valentina", BoardSection(List(card25), List(card32), List(card7)), 2, List[Card](), List[Card](card2, card4, card6, card11, card13, card31, card7, card12, card16, card18, card20, card22))
+    player3 = new Player("Julián", BoardSection(List(card18), List(card37), List(card14)), 2, List[Card](), List[Card](card1, card2, card5, card12, card40, card37, card19, card38, card23, card24))
+    player4 = new Player("Joaquín", BoardSection(List(card28), List(card39), List(card6)), 2, List[Card](), List[Card](card3, card8, card6, card10, card4, card20, card32, card17, card35, card9, card25))
 
     board1 = new Board(player1, player2, List[WeatherCard]())
     board2 = new Board(player3, player4, List[WeatherCard]())
@@ -167,45 +167,99 @@ class EffectTest extends munit.FunSuite {
     val expected1 = new CloseCombatCard("Blue Stripes Commando",
       "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 4, TightBond())
     board1.Play(player1, card9)
-    assertEquals(expected1, card7, "error")
+    assertEquals(expected1, player2.boardSection.close(1), "error") // card7
 
     val expected2 = new SiegeCombatCard("Schirrú",
       "Scorch - Siege: Destroys your enemy's strongest Siege Combat unit(s) if the combined strength of all his or her Siege Combat units is 10 or more.",
       8, NullEffect())
     board2.Play(player4, card35)
-    assertEquals(expected2, card40, "error")
+    assertEquals(expected2, player3.boardSection.siege(1), "error") // card40
   }
 
   test("Tight Bond") {
     val expected3 = new CloseCombatCard("Blue Stripes Commando",
       "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 8, TightBond())
     board1.Play(player2, card7)
-    assertEquals(expected3, card7, "error")
+    assertEquals(expected3, player1.boardSection.close(1), "error") // card7
 
     val expected4 = new SiegeCombatCard("War Longship",
       "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 12, TightBond())
     board2.Play(player3, card37)
-    assertEquals(expected4, card37, "error")
+    assertEquals(expected4, player3.boardSection.siege(1), "error") // card37
   }
 
   test("Morale Booster") {
+    val expected5 = new CloseCombatCard("Blue Stripes Commando",
+      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 5, TightBond())
+    board1.Play(player2, card16)
+    assertEquals(expected5, player1.boardSection.close(1), "error") // card7
 
-  }
-
-  test("Clear Weather") {
-
+    val expected6 = new RangedCombatCard("Yaevinn",
+      "Agile: Can be placed in either the Close Combat or the Ranged Combat row. Cannot be moved once placed.", 8, NullEffect())
+    board2.Play(player4, card25)
+    assertEquals(expected6, player4.boardSection.ranged(1), "error") // card28
   }
 
   test("Torrential Rain") {
-
+    val expected7 = new SiegeCombatCard("Catapult",
+      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 1, TightBond())
+    val expected8 = new SiegeCombatCard("Siege Technician",
+      " ", 1, NullEffect())
+    board1.Play(player2, card2)
+    assertEquals(expected7, player2.boardSection.siege(1)) // card32
+    assertEquals(expected8, player1.boardSection.siege(1)) // card36
+    
+    val expected9 = new SiegeCombatCard("War Longship",
+      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 1, TightBond())
+    val expected10 = new SiegeCombatCard("Gaunter O'Dimm",
+      "Muster: Find any cards with the same name in your deck and play them instantly.", 1, NullEffect())
+    board2.Play(player3, card2)
+    assertEquals(expected9, player3.boardSection.siege(1)) // card37
+    assertEquals(expected10, player4.boardSection.siege(1)) // card39
   }
 
   test("Biting Frost") {
-
+    val expected11 = new CloseCombatCard("Blue Stripes Commando",
+      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 1, TightBond())
+    val expected12 = new CloseCombatCard("Clan Tordarroch Armorsmith",
+      " ", 1, NullEffect())
+    board1.Play(player1, card3)
+    assertEquals(expected11, player2.boardSection.close(1)) // card7
+    assertEquals(expected12, player1.boardSection.close(1)) // card11
+    
+    val expected13 = new CloseCombatCard("Nekker",
+      "Muster: Find any cards with the same name in your deck and play them instantly.", 1, NullEffect())
+    val expected14 = new CloseCombatCard("Botchling",
+      " ", 1, NullEffect())
+    board2.Play(player4, card3)
+    assertEquals(expected13, player3.boardSection.close(1)) // card14
+    assertEquals(expected14, player4.boardSection.close(1)) // card6
   }
 
   test("Impenetrable Fog") {
+    val expected15 = new RangedCombatCard("Kayran",
+      "Hero: Not affected by any Special Cards or abilities. Morale boost: Adds +1 to all units in the row (excluding itself). Agile: Can be placed in either the Close Combat or the Ranged Combat row. Cannot be moved once placed.",
+      1, MoraleBoost())
+    val expected16 = new RangedCombatCard("Transformed Young Vildkaarl",
+      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 1, TightBond())
+    board1.Play(player2, card4)
+    assertEquals(expected15, player2.boardSection.ranged(1)) // card25
+    assertEquals(expected16, player1.boardSection.ranged(1)) // card22
+    
+    val expected17 = new RangedCombatCard("Dethmold",
+      " ", 1, NullEffect())
+    val expected18 = new RangedCombatCard("Yaevinn",
+      "Agile: Can be placed in either the Close Combat or the Ranged Combat row. Cannot be moved once placed.", 1, NullEffect())
+    board2.Play(player4, card4)
+    assertEquals(expected17, player3.boardSection.ranged(1)) // card18
+    assertEquals(expected18, player4.boardSection.ranged(1)) // card28
+  }
 
+  test("Clear Weather") {
+    //board1.Play(player1, card1)
+
+
+    //board2.Play(player3, card1)
   }
 
 }
