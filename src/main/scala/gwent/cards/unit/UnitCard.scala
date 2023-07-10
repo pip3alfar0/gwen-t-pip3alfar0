@@ -31,4 +31,11 @@ trait UnitCard extends Card {
    */
   var currentPower: Int = power
 
+  /** The weather power of the card is the changes of the card's power when a weather card is played
+   * on the game.
+   *
+   * Initially set to the base [[currentPower]] of the card.
+   */
+  var weatherPower: Int = currentPower
+
 }
