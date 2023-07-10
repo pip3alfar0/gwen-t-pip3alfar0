@@ -1,5 +1,7 @@
-package cl.uchile.dcc.gwent.observer
+package cl.uchile.dcc
+package gwent.observer
+import gwent.player.Player
 
-class finalGemCount {
-
+class FinalGemCount(val player: Player) {
+  
 }
