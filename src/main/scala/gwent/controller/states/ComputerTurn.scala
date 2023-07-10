@@ -3,6 +3,7 @@ package gwent.controller.states
 
 import gwent.controller.GameController
 
+
 class ComputerTurn(context: GameController) extends GameState(context) {
 
   override def toOtherTurn(): Unit = {
@@ -13,8 +14,8 @@ class ComputerTurn(context: GameController) extends GameState(context) {
     context.state = new PlayerTurn(context)
   }
 
-  override def doAction(): Unit = {
-    context.PlayComputer()
+  override def pass(): Unit = {
+    toOtherTurn()
   }
 
 }
