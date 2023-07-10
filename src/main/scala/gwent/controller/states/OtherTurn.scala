@@ -10,9 +10,9 @@ class OtherTurn(context: GameController) extends GameState(context) {
     context.state = new FinalRound(context)
   }
 
-  override def doAction(): Unit = {
-    //context.Play()
+  override def pass(): Unit = {
+    toFinalRound()
   }
-
+  
 }
 
