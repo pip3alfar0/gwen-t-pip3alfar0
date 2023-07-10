@@ -20,7 +20,7 @@ class StartGame(context: GameController) extends GameState(context) {
     context.state = new PlayerTurn(context)
   }
 
-  /** debe jugar aleatoriamente*/
+  /** The computer plays randomly */
   override def toComputerTurn(): Unit = {
     context.state = new ComputerTurn(context)
   }
