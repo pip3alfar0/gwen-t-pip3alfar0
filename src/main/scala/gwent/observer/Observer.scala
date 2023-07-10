@@ -1,5 +1,6 @@
-package cl.uchile.dcc.gwent.observer
+package cl.uchile.dcc
+package gwent.observer
 
-trait Observer {
-
+trait Observer[T] {
+  def update(observable: Subject[T], value: T): Unit
 }
