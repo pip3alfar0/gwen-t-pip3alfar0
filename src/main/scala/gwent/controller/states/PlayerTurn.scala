@@ -16,16 +16,8 @@ class PlayerTurn(context: GameController) extends GameState(context) {
     context.state = new ComputerTurn(context)
   }
 
-  /** The player decides if he want to play a card or pass. If he choose to play, he decides which card it's going to be played */
-  override def doAction(): Unit = {
-    println("Do you want to play or pass?")
-    val decision: String = scala.io.StdIn.readLine()
-    if (decision == "Play") {
-      context.PlayPlayer()
-    } else {
-      println("You passed. It's the opponent's turn")
-      context.passPlayer()
-    }
+  override def pass(): Unit = {
+    toOtherTurn()
   }
 
 }
