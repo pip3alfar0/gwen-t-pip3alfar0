@@ -2,10 +2,12 @@ package cl.uchile.dcc
 package gwent.player
 
 import gwent.cards.Card
-import gwent.board.{BoardSection, Board}
+import gwent.board.{Board, BoardSection}
+
 import java.util.Objects
 import gwent.cards.effects.Effect
 import gwent.player.Player
+import gwent.observer.*
 
 /** It's a class that represents a player in the game.
  * This player is defined by a name, a board section, a gem counter, a deck of cards and a hand of cards.
@@ -25,31 +27,40 @@ import gwent.player.Player
  *
  * @example
  * {{{
- *      player = new Player("Constanza", new boardSection(List[Card](card1), List[Card](card3), List[Card](card10, card12)), 100, List[Card](card2), List[Card]())
+ *      player = new Player("Constanza", new boardSection(List[Card](card1), List[Card](card3), List[Card](card10, card12)), 2, List[Card](card2), List[Card]())
  * }}}
  *
  * @author Felipe Alfaro
  * */
 
 class Player(val name: String, var boardSection: BoardSection, private var _gemCounter: Int, private var _deck: List[Card],
-             private var _handCards: List[Card]) {
+             private var _handCards: List[Card]) extends AbstractSubject[FinalGemCount] {
 
-    /** Accesor methos for the player's gem counter */
+    /** Accessor method for the player's gem counter */
     def gemCounter: Int = _gemCounter
 
     /** Setter of player's gem counter */
     def gemCounter_=(gemCounter: Int): Unit = {
+        require(_gemCounter >= 0, "The gem counter can not be less than zero")
         _gemCounter = gemCounter
+        if (gemCounter == 0) {
+            notifyObservers(new FinalGemCount(this))
+        }
     }
 
     /** Accessor method for the player's deck */
     def deck: List[Card] = _deck
 
+    /** Setter of the player's deck */
+    def deck_=(deck: List[Card]): Unit = {
+        _deck = deck
+    }
+
     /** Accessor method for the player's hand */
     def handCards: List[Card] = _handCards
 
     /** The gem counter can not be negative */
-    require(gemCounter >= 0, "The gem counter can not be less than zero") //gemCounter_ ?
+    require(_gemCounter >= 0, "The gem counter can not be less than zero")
 
     /** Select a card from your hand and place it on the board to perform an action.
      *
