@@ -17,12 +17,10 @@ import gwent.observer.{FinalGemCount, Observer, Subject}
 class GameController extends Observer[FinalGemCount] {
   private var board: Option[Board] = None
   private var _currentPlayer: Option[Player] = None
-  private var previousPlayer: Option[Player] = None
+  private var _previousPlayer: Option[Player] = None
   private var initialPlayer: Option[Player] = None
   private var _player: Option[Player] = None
   private var _computer: Option[Player] = None
-  //private var playerSection: Option[BoardSection] = None
-  //private var computerSection: Option[BoardSection] = None
 
   /** Accessor method for the player */
   def player: Option[Player] = _player
@@ -32,6 +30,9 @@ class GameController extends Observer[FinalGemCount] {
 
   /** Accessor method for the current player */
   def currentPlayer: Option[Player] = _currentPlayer
+
+  /** Accessor method for the previous player */
+  def previousPlayer: Option[Player] = _previousPlayer
 
   /** Setter for the player */
   def player_=(player: Player): Unit = {
@@ -43,14 +44,15 @@ class GameController extends Observer[FinalGemCount] {
     _computer = Some(computer)
   }
 
+  
   /***/
   override def update(observable: Subject[FinalGemCount], p: FinalGemCount): Unit = {
     if (p.player == player) {
       
     }
-    //println(s"Player ${p.name} has lost the game!!!")
     println(s"$observable has won the game!!!")
   }
+  
 
   /** Add the players as observed subjects */
   player.get.addObserver(this)
@@ -187,14 +189,14 @@ class GameController extends Observer[FinalGemCount] {
 
   /** The start of the game */
   def Starts(name: String): Unit = {
-    val player: Player = new Player(name, new BoardSection(), 2, List[Card](), List[Card]())
-    val computer: Player = new Player("computer", new BoardSection(), 2, List[Card](), List[Card]())
-    setDeckAndHand(player)
-    setDeckAndHand(computer)
-    board = Some(new Board(player, computer, List[WeatherCard]()))
-    First(player, computer) // First turn
+    _player = Some(new Player(name, new BoardSection(), 2, List[Card](), List[Card]()))
+    _computer = Some(new Player("Computer", new BoardSection(), 2, List[Card](), List[Card]()))
+    setDeckAndHand(player.get)
+    setDeckAndHand(computer.get)
+    board = Some(new Board(player.get, computer.get, List[WeatherCard]()))
+    First(player.get, computer.get) // First turn
     state = new StartGame(this)
-    if (_currentPlayer == player) {
+    if (_currentPlayer == player.get) {
       state.toPlayerTurn()
     }
     else {
@@ -219,6 +221,8 @@ class GameController extends Observer[FinalGemCount] {
       )
     }
     board.get.Play(player.get, c)
+    _previousPlayer = player
+    _currentPlayer = computer
     state.toComputerTurn()
   }
   
@@ -230,7 +234,7 @@ class GameController extends Observer[FinalGemCount] {
    * @author Felipe Alfaro
    */
   def PassPlayer(): Unit = {
-    previousPlayer = player
+    _previousPlayer = player
     _currentPlayer = computer
     state.pass()
   }
@@ -251,6 +255,8 @@ class GameController extends Observer[FinalGemCount] {
     val length = computer.get.handCards.length
     val n = scala.util.Random.nextInt(length)
     board.get.Play(_currentPlayer.get, computer.get.handCards(n))
+    _previousPlayer = computer
+    _currentPlayer = player
     state.toPlayerTurn()
   }
   
@@ -262,7 +268,7 @@ class GameController extends Observer[FinalGemCount] {
    * @author Felipe Alfaro
    */
   def PassComputer(): Unit = {
-    previousPlayer = computer
+    _previousPlayer = computer
     _currentPlayer = player
     state.pass()
   }
