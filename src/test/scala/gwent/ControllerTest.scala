@@ -173,6 +173,7 @@ class ControllerTest extends munit.FunSuite {
   test("Starts") {
     controller1.Starts("Miguelito")
     assertEquals(controller1.player.get.name, "Miguelito")
+    assertEquals(controller1.computer.get.name, "Computer")
   }
 
   test("Deck and Hand") {
@@ -182,16 +183,21 @@ class ControllerTest extends munit.FunSuite {
   }
 
   test("Play player") {
-    // simular un juego
+    controller3.PlayPlayer(controller3.player.get.handCards(1))
+    assertEquals(controller3.previousPlayer.get, controller3.player.get)
+    assertEquals(controller3.currentPlayer.get, controller3.computer.get)
   }
 
   test("Play computer") {
-
+    //controller4.PlayComputer(controller4.computer.get.handCards.zipWithIndex.filter{ n => n= }) // filtrar un indice
+    //assertEquals(controller4.previousPlayer.get, controller4.computer.get)
+    //assertEquals(controller4.currentPlayer.get, controller4.player.get)
   }
 
   test("Pass player") {
     controller3.PassPlayer()
     assertEquals(controller3.currentPlayer.get, controller3.computer.get)
+    assertEquals(controller3.previousPlayer.get, controller3.player.get)
   }
 
   test("Pass computer") {
