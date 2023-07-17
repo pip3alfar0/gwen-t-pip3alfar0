@@ -15,7 +15,9 @@ case class TightBond() extends AbstractEffect {
   override def apply(self: Card, target: List[UnitCard]): Unit = {
     for (c <- target) {
       if (self.name == c.name) {
+        c.previousPower = c.currentPower
         c.currentPower *= 2
+        c.unitEffect += (c.currentPower - c.previousPower)
       }
     }
   }
