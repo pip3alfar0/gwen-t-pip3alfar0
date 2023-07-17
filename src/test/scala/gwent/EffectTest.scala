@@ -164,102 +164,91 @@ class EffectTest extends munit.FunSuite {
 
 
   test("Null Effect") {
-    val expected1 = new CloseCombatCard("Blue Stripes Commando",
-      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 4, TightBond())
     board1.Play(player1, card9)
-    assertEquals(expected1, player2.boardSection.close(1), "error") // card7
+    assertEquals(player1.boardSection.close(1).currentPower, 4) // card11
+    assertEquals(player1.boardSection.close(1).weatherEffect, 0)
 
-    val expected2 = new SiegeCombatCard("Schirrú",
-      "Scorch - Siege: Destroys your enemy's strongest Siege Combat unit(s) if the combined strength of all his or her Siege Combat units is 10 or more.",
-      8, NullEffect())
     board2.Play(player4, card35)
-    assertEquals(expected2, player3.boardSection.siege(1), "error") // card40
+    assertEquals(player4.boardSection.siege(1).currentPower, 2) // card39
+    assertEquals(player4.boardSection.siege(1).weatherEffect, 0)
   }
 
+  // ERROR con lo expected. El error es que close(1) excede a todo lo que hay en close
   test("Tight Bond") {
-    val expected3 = new CloseCombatCard("Blue Stripes Commando",
-      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 8, TightBond())
     board1.Play(player2, card7)
-    assertEquals(expected3, player1.boardSection.close(1), "error") // card7
+    assertEquals(player2.boardSection.close(1).currentPower, 8) // card7
+    assertEquals(player2.boardSection.close(1).previousPower, 4) // card7
+    assertEquals(player2.boardSection.close(1).unitEffect, 4) // card7
+    assertEquals(player2.boardSection.close(1).weatherEffect, 0)
 
-    val expected4 = new SiegeCombatCard("War Longship",
-      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 12, TightBond())
     board2.Play(player3, card37)
-    assertEquals(expected4, player3.boardSection.siege(1), "error") // card37
+    assertEquals(player3.boardSection.siege(1).currentPower, 12) // card37
+    assertEquals(player3.boardSection.siege(1).previousPower, 6) // card37
+    assertEquals(player3.boardSection.siege(1).unitEffect, 6) // card37
+    assertEquals(player3.boardSection.siege(1).weatherEffect, 0)
   }
 
   test("Morale Booster") {
-    val expected5 = new CloseCombatCard("Blue Stripes Commando",
-      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 5, TightBond())
     board1.Play(player2, card16)
-    assertEquals(expected5, player1.boardSection.close(1), "error") // card7
+    assertEquals(player2.boardSection.close(1).currentPower, 5) // card7
+    assertEquals(player2.boardSection.close(1).weatherEffect, 0)
 
-    val expected6 = new RangedCombatCard("Yaevinn",
-      "Agile: Can be placed in either the Close Combat or the Ranged Combat row. Cannot be moved once placed.", 8, NullEffect())
     board2.Play(player4, card25)
-    assertEquals(expected6, player4.boardSection.ranged(1), "error") // card28
+    assertEquals(player4.boardSection.ranged(1).currentPower, 7) // card28
+    assertEquals(player4.boardSection.ranged(1).weatherEffect, 0)
   }
 
   test("Torrential Rain") {
-    val expected7 = new SiegeCombatCard("Catapult",
-      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 1, TightBond())
-    val expected8 = new SiegeCombatCard("Siege Technician",
-      " ", 1, NullEffect())
     board1.Play(player2, card2)
-    assertEquals(expected7, player2.boardSection.siege(1)) // card32
-    assertEquals(expected8, player1.boardSection.siege(1)) // card36
-    
-    val expected9 = new SiegeCombatCard("War Longship",
-      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 1, TightBond())
-    val expected10 = new SiegeCombatCard("Gaunter O'Dimm",
-      "Muster: Find any cards with the same name in your deck and play them instantly.", 1, NullEffect())
+    assertEquals(player2.boardSection.siege(1).currentPower, 1) // card32
+    assertEquals(player1.boardSection.siege(1).currentPower, 1) // card36
+    assertEquals(player2.boardSection.siege(1).weatherEffect, 1)
+    assertEquals(player1.boardSection.siege(1).weatherEffect, 1)
+
     board2.Play(player3, card2)
-    assertEquals(expected9, player3.boardSection.siege(1)) // card37
-    assertEquals(expected10, player4.boardSection.siege(1)) // card39
+    assertEquals(player3.boardSection.siege(1).currentPower, 1) // card37
+    assertEquals(player4.boardSection.siege(1).currentPower, 1) // card39
+    assertEquals(player3.boardSection.siege(1).weatherEffect, 1)
+    assertEquals(player4.boardSection.siege(1).weatherEffect, 1)
   }
 
   test("Biting Frost") {
-    val expected11 = new CloseCombatCard("Blue Stripes Commando",
-      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 1, TightBond())
-    val expected12 = new CloseCombatCard("Clan Tordarroch Armorsmith",
-      " ", 1, NullEffect())
     board1.Play(player1, card3)
-    assertEquals(expected11, player2.boardSection.close(1)) // card7
-    assertEquals(expected12, player1.boardSection.close(1)) // card11
-    
-    val expected13 = new CloseCombatCard("Nekker",
-      "Muster: Find any cards with the same name in your deck and play them instantly.", 1, NullEffect())
-    val expected14 = new CloseCombatCard("Botchling",
-      " ", 1, NullEffect())
+    assertEquals(player2.boardSection.close(1).currentPower, 1) // card7
+    assertEquals(player1.boardSection.close(1).currentPower, 1) // card11
+    assertEquals(player2.boardSection.close(1).weatherEffect, 1)
+    assertEquals(player1.boardSection.close(1).weatherEffect, 1)
+
     board2.Play(player4, card3)
-    assertEquals(expected13, player3.boardSection.close(1)) // card14
-    assertEquals(expected14, player4.boardSection.close(1)) // card6
+    assertEquals(player3.boardSection.close(1).currentPower, 1) // card14
+    assertEquals(player4.boardSection.close(1).currentPower, 1) // card6
+    assertEquals(player3.boardSection.close(1).weatherEffect, 1)
+    assertEquals(player4.boardSection.close(1).weatherEffect, 1)
   }
 
   test("Impenetrable Fog") {
-    val expected15 = new RangedCombatCard("Kayran",
-      "Hero: Not affected by any Special Cards or abilities. Morale boost: Adds +1 to all units in the row (excluding itself). Agile: Can be placed in either the Close Combat or the Ranged Combat row. Cannot be moved once placed.",
-      1, MoraleBoost())
-    val expected16 = new RangedCombatCard("Transformed Young Vildkaarl",
-      "Tight Bond: Place next to a card with the same name to double the strength of both cards.", 1, TightBond())
     board1.Play(player2, card4)
-    assertEquals(expected15, player2.boardSection.ranged(1)) // card25
-    assertEquals(expected16, player1.boardSection.ranged(1)) // card22
-    
-    val expected17 = new RangedCombatCard("Dethmold",
-      " ", 1, NullEffect())
-    val expected18 = new RangedCombatCard("Yaevinn",
-      "Agile: Can be placed in either the Close Combat or the Ranged Combat row. Cannot be moved once placed.", 1, NullEffect())
+    assertEquals(player2.boardSection.ranged(1).currentPower, 1) // card25
+    assertEquals(player1.boardSection.ranged(1).currentPower, 1) // card22
+    assertEquals(player2.boardSection.ranged(1).weatherEffect, 1)
+    assertEquals(player1.boardSection.ranged(1).weatherEffect, 1)
+
     board2.Play(player4, card4)
-    assertEquals(expected17, player3.boardSection.ranged(1)) // card18
-    assertEquals(expected18, player4.boardSection.ranged(1)) // card28
+    assertEquals(player3.boardSection.ranged(1).currentPower, 1) // card18
+    assertEquals(player4.boardSection.ranged(1).currentPower, 1) // card28
+    assertEquals(player3.boardSection.ranged(1).weatherEffect, 1)
+    assertEquals(player4.boardSection.ranged(1).weatherEffect, 1)
   }
 
   test("Clear Weather") {
-    //board1.Play(player1, card1)
+    board1.Play(player1, card1)
+
+    assertEquals(player2.boardSection.ranged(1).weatherEffect, 0)
 
 
-    //board2.Play(player3, card1)
+    board2.Play(player3, card1)
+
+    assertEquals(player4.boardSection.ranged(1).weatherEffect, 0)
   }
 
 }
