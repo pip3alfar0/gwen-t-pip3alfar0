@@ -14,7 +14,8 @@ case class BitingFrost() extends AbstractEffect {
   override def apply(self: Card, target1: BoardSection, target2: BoardSection): Unit = {
     val t1 = target1.close
     val t2 = target2.close
-    cPower(t1, t2)
+    cPower(t1)
+    cPower(t2)
   }
 
 }
