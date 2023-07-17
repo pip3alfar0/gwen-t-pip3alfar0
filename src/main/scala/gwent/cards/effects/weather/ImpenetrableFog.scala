@@ -14,7 +14,8 @@ case class ImpenetrableFog() extends AbstractEffect {
   override def apply(self: Card, target1: BoardSection, target2: BoardSection): Unit = {
     val t1 = target1.ranged
     val t2 = target2.ranged
-    cPower(t1, t2)
+    cPower(t1)
+    cPower(t2)
   }
   
 }
