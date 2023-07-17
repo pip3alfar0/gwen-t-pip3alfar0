@@ -11,15 +11,26 @@ import gwent.cards.unit.UnitCard
 abstract class AbstractEffect extends Effect {
   
   /** Set the current power to 1 of some list of unit cards */
-  def cPower(t1: List[UnitCard], t2: List[UnitCard]): Unit = {
-    for (c <- t1) {
-      c.weatherPower = 1
-    }
-    for (c <- t2) {
-      c.weatherPower = 1
+  def cPower(t: List[UnitCard]): Unit = {
+    for (c <- t) {
+      c.previousPower = c.currentPower
+      c.currentPower = 1
+      c.weatherEffect = 1
     }
   }
-  
+
+  /** Applies the clear weather effect to a List of cards */
+  def cClear(t: List[UnitCard]): Unit = {
+    for (c <- t) {
+      // asked if the card has any weather effect
+      if (c.weatherEffect != 0) {
+        c.previousPower = c.currentPower
+        c.currentPower = c.power + c.unitEffect
+        c.weatherEffect = 0
+      }
+    }
+  }
+
   /** Method apply for the weather effects */
   def apply(self: Card, target1: BoardSection, target2: BoardSection): Unit = {
     // do nothing for now
