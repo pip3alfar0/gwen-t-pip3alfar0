@@ -18,4 +18,12 @@ class ComputerTurn(context: GameController) extends GameState(context) {
     toOtherTurn()
   }
 
+  override def changeTurn(): Unit = {
+    toPlayerTurn()
+  }
+
+  override def isInComputerTurn: Boolean = {
+    true
+  }
+
 }
