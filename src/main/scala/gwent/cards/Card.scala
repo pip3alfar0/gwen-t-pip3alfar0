@@ -45,5 +45,8 @@ trait Card {
    * @author Felipe Alfaro
    */
   def Play(j: Player, t: Board): Unit
+  
+  /** Create a copy of a card */
+  def Copy(): Card
 
 }
