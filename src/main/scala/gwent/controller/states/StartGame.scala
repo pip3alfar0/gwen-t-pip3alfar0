@@ -25,6 +25,10 @@ class StartGame(context: GameController) extends GameState(context) {
     context.state = new ComputerTurn(context)
   }
 
+  override def isInStartGame: Boolean = {
+    true
+  }
+
 }
 
 
