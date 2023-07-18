@@ -36,8 +36,7 @@ trait UnitCard extends Card {
    * Initially set as 0.
    */
   var previousPower: Int = 0
-
-
+  
   /** The weather effect it's the way to know if the card suffered changes from weather cards.
    *
    * Initially set as 0 and changes to 1 if some weather effect applies on the card.
