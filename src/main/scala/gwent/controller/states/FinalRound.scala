@@ -12,6 +12,10 @@ class FinalRound(context: GameController) extends GameState(context) {
   override def toAnotherRound(): Unit = {
     context.state = new AnotherRound(context)
   }
+
+  override def isInFinalRound: Boolean = {
+    true
+  }
   
 }
 
