@@ -4,8 +4,8 @@ package gwent.cards.unit
 import gwent.cards.unit.AbstractUnitCard
 import gwent.player.Player
 import gwent.board.Board
-
-import cl.uchile.dcc.gwent.cards.effects.Effect
+import gwent.cards.*
+import gwent.cards.effects.Effect
 
 /** Class representing a siege combat unit card in the game.
  *
@@ -36,6 +36,11 @@ class SiegeCombatCard(name: String, description: String,
    */
   override def Play(j: Player, t: Board): Unit = {
     j.boardSection.PlaySiege(this)
+  }
+
+  /** Create a copy of a card */
+  override def Copy(): Card = {
+    new SiegeCombatCard(name, description, power, effect)
   }
 
   override def equals(obj: Any): Boolean = obj match {
