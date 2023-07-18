@@ -153,10 +153,10 @@ class EffectTest extends munit.FunSuite {
       "Scorch - Siege: Destroys your enemy's strongest Siege Combat unit(s) if the combined strength of all his or her Siege Combat units is 10 or more.",
       8, NullEffect())
 
-    player1 = new Player("Constanza", BoardSection(List(card22), List(card36), List(card11)), 2, List[Card](), List[Card](card1, card5, card8, card14, card25, card3, card9, card10, card15, card28))
-    player2 = new Player("Valentina", BoardSection(List(card25), List(card32), List(card7)), 2, List[Card](), List[Card](card2, card4, card6, card11, card13, card31, card7, card12, card16, card18, card20, card22))
-    player3 = new Player("Julián", BoardSection(List(card18), List(card37), List(card14)), 2, List[Card](), List[Card](card1, card2, card5, card12, card40, card37, card19, card38, card23, card24))
-    player4 = new Player("Joaquín", BoardSection(List(card28), List(card39), List(card6)), 2, List[Card](), List[Card](card3, card8, card6, card10, card4, card20, card32, card17, card35, card9, card25))
+    player1 = new Player("Constanza", BoardSection(), 2, List[Card](), List[Card](card11.Copy(), card36.Copy(), card22.Copy(), card1.Copy(), card5.Copy(), card8.Copy(), card14.Copy(), card25.Copy(), card3.Copy(), card9.Copy(), card10.Copy(), card15.Copy(), card28.Copy()))
+    player2 = new Player("Valentina", BoardSection(), 2, List[Card](), List[Card](card32.Copy(), card25.Copy(), card7.Copy(), card2.Copy(), card4.Copy(), card6.Copy(), card11.Copy(), card13.Copy(), card31.Copy(), card7.Copy(), card12.Copy(), card16.Copy(), card18.Copy(), card20.Copy(), card22.Copy()))
+    player3 = new Player("Julián", BoardSection(), 2, List[Card](), List[Card](card14.Copy(), card37.Copy(), card18.Copy(), card1.Copy(), card2.Copy(), card5.Copy(), card12.Copy(), card40.Copy(), card37.Copy(), card19.Copy(), card38.Copy(), card23.Copy(), card24.Copy()))
+    player4 = new Player("Joaquín", BoardSection(), 2, List[Card](), List[Card](card6.Copy(), card39.Copy(), card28.Copy(), card3.Copy(), card8.Copy(), card6.Copy(), card10.Copy(), card4.Copy(), card20.Copy(), card32.Copy(), card17.Copy(), card35.Copy(), card9.Copy(), card25.Copy()))
 
     board1 = new Board(player1, player2, List[WeatherCard]())
     board2 = new Board(player3, player4, List[WeatherCard]())
@@ -164,6 +164,19 @@ class EffectTest extends munit.FunSuite {
 
 
   test("Null Effect") {
+    board1.Play(player1, card22)
+    board1.Play(player1, card36)
+    board1.Play(player1, card11)
+    board1.Play(player2, card25)
+    board1.Play(player2, card32)
+    board1.Play(player2, card7)
+    board2.Play(player3, card18)
+    board2.Play(player3, card37)
+    board2.Play(player3, card14)
+    board2.Play(player4, card28)
+    board2.Play(player4, card39)
+    board2.Play(player4, card6)
+
     board1.Play(player1, card9)
     assertEquals(player1.boardSection.close(1).currentPower, 4) // card11
     assertEquals(player1.boardSection.close(1).weatherEffect, 0)
@@ -173,8 +186,20 @@ class EffectTest extends munit.FunSuite {
     assertEquals(player4.boardSection.siege(1).weatherEffect, 0)
   }
 
-  // ERROR con lo expected. El error es que close(1) excede a todo lo que hay en close
   test("Tight Bond") {
+    board1.Play(player1, card22)
+    board1.Play(player1, card36)
+    board1.Play(player1, card11)
+    board1.Play(player2, card25)
+    board1.Play(player2, card32)
+    board1.Play(player2, card7)
+    board2.Play(player3, card18)
+    board2.Play(player3, card37)
+    board2.Play(player3, card14)
+    board2.Play(player4, card28)
+    board2.Play(player4, card39)
+    board2.Play(player4, card6)
+
     board1.Play(player2, card7)
     assertEquals(player2.boardSection.close(1).currentPower, 8) // card7
     assertEquals(player2.boardSection.close(1).previousPower, 4) // card7
@@ -182,13 +207,26 @@ class EffectTest extends munit.FunSuite {
     assertEquals(player2.boardSection.close(1).weatherEffect, 0)
 
     board2.Play(player3, card37)
-    assertEquals(player3.boardSection.siege(1).currentPower, 12) // card37
     assertEquals(player3.boardSection.siege(1).previousPower, 6) // card37
+    assertEquals(player3.boardSection.siege(1).currentPower, 12) // card37
     assertEquals(player3.boardSection.siege(1).unitEffect, 6) // card37
     assertEquals(player3.boardSection.siege(1).weatherEffect, 0)
   }
 
   test("Morale Booster") {
+    board1.Play(player1, card22)
+    board1.Play(player1, card36)
+    board1.Play(player1, card11)
+    board1.Play(player2, card25)
+    board1.Play(player2, card32)
+    board1.Play(player2, card7)
+    board2.Play(player3, card18)
+    board2.Play(player3, card37)
+    board2.Play(player3, card14)
+    board2.Play(player4, card28)
+    board2.Play(player4, card39)
+    board2.Play(player4, card6)
+
     board1.Play(player2, card16)
     assertEquals(player2.boardSection.close(1).currentPower, 5) // card7
     assertEquals(player2.boardSection.close(1).weatherEffect, 0)
@@ -199,6 +237,19 @@ class EffectTest extends munit.FunSuite {
   }
 
   test("Torrential Rain") {
+    board1.Play(player1, card22)
+    board1.Play(player1, card36)
+    board1.Play(player1, card11)
+    board1.Play(player2, card25)
+    board1.Play(player2, card32)
+    board1.Play(player2, card7)
+    board2.Play(player3, card18)
+    board2.Play(player3, card37)
+    board2.Play(player3, card14)
+    board2.Play(player4, card28)
+    board2.Play(player4, card39)
+    board2.Play(player4, card6)
+
     board1.Play(player2, card2)
     assertEquals(player2.boardSection.siege(1).currentPower, 1) // card32
     assertEquals(player1.boardSection.siege(1).currentPower, 1) // card36
@@ -213,6 +264,19 @@ class EffectTest extends munit.FunSuite {
   }
 
   test("Biting Frost") {
+    board1.Play(player1, card22)
+    board1.Play(player1, card36)
+    board1.Play(player1, card11)
+    board1.Play(player2, card25)
+    board1.Play(player2, card32)
+    board1.Play(player2, card7)
+    board2.Play(player3, card18)
+    board2.Play(player3, card37)
+    board2.Play(player3, card14)
+    board2.Play(player4, card28)
+    board2.Play(player4, card39)
+    board2.Play(player4, card6)
+
     board1.Play(player1, card3)
     assertEquals(player2.boardSection.close(1).currentPower, 1) // card7
     assertEquals(player1.boardSection.close(1).currentPower, 1) // card11
@@ -227,6 +291,19 @@ class EffectTest extends munit.FunSuite {
   }
 
   test("Impenetrable Fog") {
+    board1.Play(player1, card22)
+    board1.Play(player1, card36)
+    board1.Play(player1, card11)
+    board1.Play(player2, card25)
+    board1.Play(player2, card32)
+    board1.Play(player2, card7)
+    board2.Play(player3, card18)
+    board2.Play(player3, card37)
+    board2.Play(player3, card14)
+    board2.Play(player4, card28)
+    board2.Play(player4, card39)
+    board2.Play(player4, card6)
+
     board1.Play(player2, card4)
     assertEquals(player2.boardSection.ranged(1).currentPower, 1) // card25
     assertEquals(player1.boardSection.ranged(1).currentPower, 1) // card22
@@ -241,6 +318,19 @@ class EffectTest extends munit.FunSuite {
   }
 
   test("Clear Weather") {
+    board1.Play(player1, card22)
+    board1.Play(player1, card36)
+    board1.Play(player1, card11)
+    board1.Play(player2, card25)
+    board1.Play(player2, card32)
+    board1.Play(player2, card7)
+    board2.Play(player3, card18)
+    board2.Play(player3, card37)
+    board2.Play(player3, card14)
+    board2.Play(player4, card28)
+    board2.Play(player4, card39)
+    board2.Play(player4, card6)
+
     board1.Play(player1, card1)
 
     assertEquals(player2.boardSection.ranged(1).weatherEffect, 0)
