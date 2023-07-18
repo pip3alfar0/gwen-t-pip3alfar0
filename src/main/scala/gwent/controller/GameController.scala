@@ -21,6 +21,7 @@ class GameController extends Observer[FinalGemCount] {
   private var initialPlayer: Option[Player] = None
   private var _player: Option[Player] = None
   private var _computer: Option[Player] = None
+  private var _winner: Option[Player] = None
 
   /** Accessor method for the player */
   def player: Option[Player] = _player
@@ -34,6 +35,9 @@ class GameController extends Observer[FinalGemCount] {
   /** Accessor method for the previous player */
   def previousPlayer: Option[Player] = _previousPlayer
 
+  /** Accessor method for the winner */
+  def winner: Option[Player] = _winner
+
   /** Setter for the player */
   def player_=(player: Player): Unit = {
     _player = Some(player)
@@ -44,22 +48,29 @@ class GameController extends Observer[FinalGemCount] {
     _computer = Some(computer)
   }
 
-  
-  /***/
-  override def update(observable: Subject[FinalGemCount], p: FinalGemCount): Unit = {
-    if (p.player == player) {
-      
-    }
-    println(s"$observable has won the game!!!")
+  /** Setter for the current player */
+  def currentPlayer_=(currentPlayer: Player): Unit = {
+    _currentPlayer = Some(currentPlayer)
   }
-  
-
-  /** Add the players as observed subjects */
-  player.get.addObserver(this)
-  computer.get.addObserver(this)
 
   // Initial state
   var state: GameState = new StartGame(this)
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /** In the end of the game, the player who still have gems won */
+  override def update(observable: Subject[FinalGemCount], p: FinalGemCount): Unit = {
+    state.toEndGame()
+    _winner = player
+    if (p.player == player) {
+      _winner = computer
+    }
+    if (_winner.get.gemCounter == 0) {
+      println("It's a tie!!!")
+    } else {
+      println(s"$_winner has won the game!!!")
+    }
+  }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   /** The game's cards */
   var card1: WeatherCard = new WeatherCard("Clear Weather",
@@ -153,14 +164,22 @@ class GameController extends Observer[FinalGemCount] {
     card15, card16, card17, card18, card19, card20, card21, card22, card23, card24, card25, card26, card27, card28, card29, card30,
     card31, card32, card33, card34, card35, card36, card37, card38, card39, card40)
   val ListWeatherCards = List[Card](card1, card2, card3, card4)
-
-  /** Shuffle each player's deck and give 10 cards for each hand of cards */ //fix
-  def setDeckAndHand(p: Player): Unit = { // private?
-    p.deck_=(ListWeatherCards ::: p.deck)
+  
+  /** Shuffle each player's deck and give 10 cards for each hand of cards */
+  private def setDeckAndHand(p: Player): Unit = {
+    var newWeatherList = List[Card]()
+    for (c <- ListWeatherCards) {
+      newWeatherList = c.Copy() :: newWeatherList
+    }
+    p.deck_=(newWeatherList ::: p.deck)
+    var newUnitList = List[Card]()
+    for (c <- ListUnitCards) {
+      newUnitList = c.Copy() :: newUnitList
+    }
     var i = 21
     while (i > 0) {
-      val n = scala.util.Random.nextInt(36)
-      p.deck_=(ListUnitCards(n) :: p.deck)
+      val n = scala.util.Random.nextInt(35)
+      p.deck_=(newUnitList(n) :: p.deck)
       i -= 1
     }
     p.shuffleDeck()
@@ -170,8 +189,6 @@ class GameController extends Observer[FinalGemCount] {
       j -= 1
     }
   }
-
-
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   /** Select randomly the initial player */
@@ -189,13 +206,16 @@ class GameController extends Observer[FinalGemCount] {
 
   /** The start of the game */
   def Starts(name: String): Unit = {
+    state = new StartGame(this)
     _player = Some(new Player(name, new BoardSection(), 2, List[Card](), List[Card]()))
     _computer = Some(new Player("Computer", new BoardSection(), 2, List[Card](), List[Card]()))
+    //Add the players as observed subjects
+    player.get.addObserver(this)
+    computer.get.addObserver(this)
     setDeckAndHand(player.get)
     setDeckAndHand(computer.get)
     board = Some(new Board(player.get, computer.get, List[WeatherCard]()))
     First(player.get, computer.get) // First turn
-    state = new StartGame(this)
     if (_currentPlayer == player.get) {
       state.toPlayerTurn()
     }
@@ -223,7 +243,7 @@ class GameController extends Observer[FinalGemCount] {
     board.get.Play(player.get, c)
     _previousPlayer = player
     _currentPlayer = computer
-    state.toComputerTurn()
+    state.changeTurn()
   }
   
   /** The Player didn't play in his turn, so it's the computer's turn.
@@ -257,7 +277,7 @@ class GameController extends Observer[FinalGemCount] {
     board.get.Play(_currentPlayer.get, computer.get.handCards(n))
     _previousPlayer = computer
     _currentPlayer = player
-    state.toPlayerTurn()
+    state.changeTurn()
   }
   
   /** The Computer didn't play in his turn, so it's the player's turn.
@@ -272,7 +292,6 @@ class GameController extends Observer[FinalGemCount] {
     _currentPlayer = player
     state.pass()
   }
-
 
   
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -292,7 +311,7 @@ class GameController extends Observer[FinalGemCount] {
   }
 
   /** Counts the points, the player with the less points loose a gem */
-  def countPoints(): Unit = {
+  def gems(): Unit = {
     val playerPoints = countPointsPlayer(player.get)
     val computerPoints = countPointsPlayer(computer.get)
     // compare
@@ -306,11 +325,7 @@ class GameController extends Observer[FinalGemCount] {
       computer.get.gemCounter -= 1
     }
   }
-
-
-
-
-
+  
   /** Each player steal 3 cards from their respective decks */ //fix
   def AnotherRound(): Unit = {
     var i = 3
@@ -319,34 +334,16 @@ class GameController extends Observer[FinalGemCount] {
       computer.get.Steal()
       i-=1
     }
+    state.toAnotherRound()
     if (initialPlayer == player) {
       _currentPlayer = computer
       initialPlayer = player
-      state = new ComputerTurn(this)
+      state.toComputerTurn()
     } else {
       _currentPlayer = player
       initialPlayer = computer
-      state = new PlayerTurn(this)
+      state.toPlayerTurn()
     }
   }
-
-
-
-  
-
-
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /** In the end of the game, the player who still have gems won */ //fix
-  def finalGemCount(): Unit = {
-    if (player.get.gemCounter != 0) {
-      printf("You won!! Congrats:)")
-    }
-    else if (computer.get.gemCounter != 0) {
-      printf("The Computer wins!!")
-    } else {
-      printf("All the players have 0 gems!! It's a tie")
-    }
-  }
-
 
 }
