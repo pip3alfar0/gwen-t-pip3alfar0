@@ -14,4 +14,8 @@ class AnotherRound(context: GameController) extends GameState(context) {
     context.state = new ComputerTurn(context)
   }
 
+  override def isInAnotherRound: Boolean = {
+    true
+  }
+
 }
