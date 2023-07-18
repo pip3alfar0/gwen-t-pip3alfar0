@@ -39,6 +39,11 @@ class WeatherCard(val name: String, val description: String, val effect: Effect)
     t.playWeather(j, this)
   }
 
+  /** Create a copy of a card */
+  override def Copy(): Card = {
+    new WeatherCard(name, description, effect)
+  }
+
   override def hashCode(): Int = {
     Objects.hash(classOf[WeatherCard], name, description)
   }
