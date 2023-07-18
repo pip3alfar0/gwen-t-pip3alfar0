@@ -12,5 +12,9 @@ class EndGame(context: GameController) extends GameState(context) {
     context.finalGemCount()
   }
   */
+
+  override def isInEndGame: Boolean = {
+    true
+  }
   
 }
