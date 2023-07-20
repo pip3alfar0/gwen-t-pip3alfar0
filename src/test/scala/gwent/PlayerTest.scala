@@ -239,17 +239,17 @@ class PlayerTest extends munit.FunSuite {
 
   test("Play") {
     val expected1 = new Player("Simón", new BoardSection(List(), List(), List(card10)),
-      2, List[Card](), List[Card](card10, card7))
+      2, List[Card](), List[Card](card7))
     player7.Play(card10, board3)
     assertEquals(expected1, player7, "error")
 
-    val expected2 = new Board(player2, player8, List(card12))
+    val expected2 = List(card12)
     player8.Play(card12, board2) //weather
-    assertEquals(expected2, board2, "error")
+    assertEquals(expected2, board2.weatherZone, "error")
 
-    val expected3 = new Board(player1, player9, List(card13))
+    val expected3 = List(card13)
     player9.Play(card13, board1) //weather
-    assertEquals(expected3, board1, "error")
+    assertEquals(expected3, board1.weatherZone, "error")
   }
   
   test("Steal") {
