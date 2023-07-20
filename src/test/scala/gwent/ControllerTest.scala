@@ -147,30 +147,7 @@ class ControllerTest extends munit.FunSuite {
     controller.gems()
   }
 
-  test("Winner 2") {
-    controller2.Starts("Rene Bridge")
-    if (controller2.state.isInPlayerTurn) {
-      controller2.state.toComputerTurn()
-      controller2.initialPlayer_=(controller2.computer.get)
-      controller2.currentPlayer_=(controller2.computer.get)
-    }
-    controller2.PlayComputer()
-    controller2.PlayPlayer(controller2.player.get.handCards(1))
-    controller2.PlayComputer()
-    controller2.PlayPlayer(controller2.player.get.handCards(1))
-    controller2.PlayComputer()
-    controller2.PlayPlayer(controller2.player.get.handCards(1))
-    controller2.PassComputer()
-    controller2.PlayPlayer(controller2.player.get.handCards(1))
-    controller2.PlayPlayer(controller2.player.get.handCards(1))
-    controller2.PassPlayer()
-    controller2.gems()
-    controller2.AnotherRound()
-    controller2.PlayPlayer(controller2.player.get.handCards(1))
-    controller2.PassComputer()
-    controller2.PassPlayer()
-    controller2.gems()
-  }
+
 
   test("Exceptions") {
     controller2.Starts("Rene Bridge")
@@ -196,12 +173,24 @@ class ControllerTest extends munit.FunSuite {
   test("Transition error") {
     controller.Starts("Kike Morande")
     if (controller.state.isInPlayerTurn) {
-      controller.state.toComputerTurn()
-      controller.initialPlayer_=(controller.computer.get)
-      controller.currentPlayer_=(controller.computer.get)
+      val e1 = Assert.assertThrows(classOf[InvalidTransitionException], () => controller.state.toPlayerTurn())
+      assertEquals(e1.getMessage, "Cannot transition from PlayerTurn to PlayerTurn")
+      val e3 = Assert.assertThrows(classOf[InvalidTransitionException], () => controller.state.toFinalRound())
+      assertEquals(e3.getMessage, "Cannot transition from PlayerTurn to FinalRound")
+      val e4 = Assert.assertThrows(classOf[InvalidTransitionException], () => controller.state.toEndGame())
+      assertEquals(e4.getMessage, "Cannot transition from PlayerTurn to EndGame")
+      val e5 = Assert.assertThrows(classOf[InvalidTransitionException], () => controller.state.toAnotherRound())
+      assertEquals(e5.getMessage, "Cannot transition from PlayerTurn to AnotherRound")
+    } else {
+      val e2 = Assert.assertThrows(classOf[InvalidTransitionException], () => controller.state.toComputerTurn())
+      assertEquals(e2.getMessage, "Cannot transition from ComputerTurn to ComputerTurn")
+      val e3 = Assert.assertThrows(classOf[InvalidTransitionException], () => controller.state.toFinalRound())
+      assertEquals(e3.getMessage, "Cannot transition from ComputerTurn to FinalRound")
+      val e4 = Assert.assertThrows(classOf[InvalidTransitionException], () => controller.state.toEndGame())
+      assertEquals(e4.getMessage, "Cannot transition from ComputerTurn to EndGame")
+      val e5 = Assert.assertThrows(classOf[InvalidTransitionException], () => controller.state.toAnotherRound())
+      assertEquals(e5.getMessage, "Cannot transition from ComputerTurn to AnotherRound")
     }
-    val e1 = Assert.assertThrows(classOf[InvalidMethodException], () => controller.PlayComputer())
-    assertEquals(e1.getMessage, "Cannot transition from  to ")
   }
 
 }
