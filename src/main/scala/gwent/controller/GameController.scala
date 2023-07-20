@@ -18,7 +18,7 @@ class GameController extends Observer[FinalGemCount] {
   private var board: Option[Board] = None
   private var _currentPlayer: Option[Player] = None
   private var _previousPlayer: Option[Player] = None
-  private var initialPlayer: Option[Player] = None
+  private var _initialPlayer: Option[Player] = None
   private var _player: Option[Player] = None
   private var _computer: Option[Player] = None
   private var _winner: Option[Player] = None
@@ -38,6 +38,9 @@ class GameController extends Observer[FinalGemCount] {
   /** Accessor method for the winner */
   def winner: Option[Player] = _winner
 
+  /** Accessor method for the initial player */
+  def initialPlayer: Option[Player] = _initialPlayer
+
   /** Setter for the player */
   def player_=(player: Player): Unit = {
     _player = Some(player)
@@ -51,6 +54,11 @@ class GameController extends Observer[FinalGemCount] {
   /** Setter for the current player */
   def currentPlayer_=(currentPlayer: Player): Unit = {
     _currentPlayer = Some(currentPlayer)
+  }
+
+  /** Setter for the initial player */
+  def initialPlayer_=(initialPlayer: Player): Unit = {
+    _initialPlayer = Some(initialPlayer)
   }
 
   // Initial state
@@ -67,7 +75,7 @@ class GameController extends Observer[FinalGemCount] {
     if (_winner.get.gemCounter == 0) {
       println("It's a tie!!!")
     } else {
-      println(s"$_winner has won the game!!!")
+      println(s"${_winner.get.name} has won the game!!!")
     }
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -179,7 +187,7 @@ class GameController extends Observer[FinalGemCount] {
     var i = 21
     while (i > 0) {
       val n = scala.util.Random.nextInt(35)
-      p.deck_=(newUnitList(n) :: p.deck)
+      p.deck_=(newUnitList(n).Copy() :: p.deck)
       i -= 1
     }
     p.shuffleDeck()
@@ -196,11 +204,11 @@ class GameController extends Observer[FinalGemCount] {
     val n = scala.util.Random.nextInt(2)
     if (n == 1) {
       _currentPlayer = Some(p1)
-      initialPlayer = Some(p1)
+      _initialPlayer = Some(p1)
     }
     else {
       _currentPlayer = Some(p2)
-      initialPlayer = Some(p2)
+      _initialPlayer = Some(p2)
     }
   }
 
@@ -254,11 +262,6 @@ class GameController extends Observer[FinalGemCount] {
    * @author Felipe Alfaro
    */
   def PassPlayer(): Unit = {
-    if (_currentPlayer != player) {
-      throw new InvalidMethodException(
-        s"It's the computer's turn, not yours"
-      )
-    }
     _previousPlayer = player
     _currentPlayer = computer
     state.pass()
@@ -293,11 +296,6 @@ class GameController extends Observer[FinalGemCount] {
    * @author Felipe Alfaro
    */
   def PassComputer(): Unit = {
-    if (_currentPlayer != computer) {
-      throw new InvalidMethodException(
-        s"It's the player's turn, not yours"
-      )
-    }
     _previousPlayer = computer
     _currentPlayer = player
     state.pass()
@@ -345,13 +343,13 @@ class GameController extends Observer[FinalGemCount] {
       i-=1
     }
     state.toAnotherRound()
-    if (initialPlayer == player) {
+    if (_initialPlayer == player) {
       _currentPlayer = computer
-      initialPlayer = player
+      _initialPlayer = player
       state.toComputerTurn()
     } else {
       _currentPlayer = player
-      initialPlayer = computer
+      _initialPlayer = computer
       state.toPlayerTurn()
     }
   }
