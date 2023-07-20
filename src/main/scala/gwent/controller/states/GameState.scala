@@ -4,7 +4,14 @@ package gwent.controller.states
 import gwent.controller.GameController
 import gwent.exception.InvalidTransitionException
 
-
+/** Class representing the states of the game.
+ *
+ * A `GameState` is the class from which the game state classes extend.
+ * This states represents the relevant moments of a game.
+ *
+ * @param context The context of the game.
+ * @author Felipe Alfaro
+ */
 class GameState(val context: GameController) {
   context.state = this
 
