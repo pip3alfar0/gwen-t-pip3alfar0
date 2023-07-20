@@ -3,7 +3,14 @@ package gwent.controller.states
 
 import gwent.controller.GameController
 
-
+/** Class representing the player's turn.
+ *
+ * A `PlayerTurn` is a type of [[GameState]].
+ * This state represents the player's turn, he decide if he play or pass.
+ *
+ * @param context The context of the game.
+ * @author Felipe Alfaro
+ */
 class PlayerTurn(context: GameController) extends GameState(context) {
 
   /** The player decided to pass */
