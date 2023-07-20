@@ -201,16 +201,16 @@ class EffectTest extends munit.FunSuite {
     board2.Play(player4, card6)
 
     board1.Play(player2, card7)
-    assertEquals(player2.boardSection.close(1).currentPower, 8) // card7
-    assertEquals(player2.boardSection.close(1).previousPower, 4) // card7
-    assertEquals(player2.boardSection.close(1).unitEffect, 4) // card7
-    assertEquals(player2.boardSection.close(1).weatherEffect, 0)
+    assertEquals(player2.boardSection.close.head.currentPower, 8) // card7
+    assertEquals(player2.boardSection.close.head.previousPower, 4) // card7
+    assertEquals(player2.boardSection.close.head.unitEffect, 4) // card7
+    assertEquals(player2.boardSection.close.head.weatherEffect, 0)
 
     board2.Play(player3, card37)
-    assertEquals(player3.boardSection.siege(1).previousPower, 6) // card37
-    assertEquals(player3.boardSection.siege(1).currentPower, 12) // card37
-    assertEquals(player3.boardSection.siege(1).unitEffect, 6) // card37
-    assertEquals(player3.boardSection.siege(1).weatherEffect, 0)
+    assertEquals(player3.boardSection.siege.head.previousPower, 6) // card37
+    assertEquals(player3.boardSection.siege.head.currentPower, 12) // card37
+    assertEquals(player3.boardSection.siege.head.unitEffect, 6) // card37
+    assertEquals(player3.boardSection.siege.head.weatherEffect, 0)
   }
 
   test("Morale Booster") {
@@ -228,12 +228,12 @@ class EffectTest extends munit.FunSuite {
     board2.Play(player4, card6)
 
     board1.Play(player2, card16)
-    assertEquals(player2.boardSection.close(1).currentPower, 5) // card7
-    assertEquals(player2.boardSection.close(1).weatherEffect, 0)
+    assertEquals(player2.boardSection.close.head.currentPower, 5) // card7
+    assertEquals(player2.boardSection.close.head.weatherEffect, 0)
 
     board2.Play(player4, card25)
-    assertEquals(player4.boardSection.ranged(1).currentPower, 7) // card28
-    assertEquals(player4.boardSection.ranged(1).weatherEffect, 0)
+    assertEquals(player4.boardSection.ranged.head.currentPower, 7) // card28
+    assertEquals(player4.boardSection.ranged.head.weatherEffect, 0)
   }
 
   test("Torrential Rain") {
@@ -251,16 +251,16 @@ class EffectTest extends munit.FunSuite {
     board2.Play(player4, card6)
 
     board1.Play(player2, card2)
-    assertEquals(player2.boardSection.siege(1).currentPower, 1) // card32
-    assertEquals(player1.boardSection.siege(1).currentPower, 1) // card36
-    assertEquals(player2.boardSection.siege(1).weatherEffect, 1)
-    assertEquals(player1.boardSection.siege(1).weatherEffect, 1)
+    assertEquals(player2.boardSection.siege.head.currentPower, 1) // card32
+    assertEquals(player1.boardSection.siege.head.currentPower, 1) // card36
+    assertEquals(player2.boardSection.siege.head.weatherEffect, 1)
+    assertEquals(player1.boardSection.siege.head.weatherEffect, 1)
 
     board2.Play(player3, card2)
-    assertEquals(player3.boardSection.siege(1).currentPower, 1) // card37
-    assertEquals(player4.boardSection.siege(1).currentPower, 1) // card39
-    assertEquals(player3.boardSection.siege(1).weatherEffect, 1)
-    assertEquals(player4.boardSection.siege(1).weatherEffect, 1)
+    assertEquals(player3.boardSection.siege.head.currentPower, 1) // card37
+    assertEquals(player4.boardSection.siege.head.currentPower, 1) // card39
+    assertEquals(player3.boardSection.siege.head.weatherEffect, 1)
+    assertEquals(player4.boardSection.siege.head.weatherEffect, 1)
   }
 
   test("Biting Frost") {
@@ -278,16 +278,16 @@ class EffectTest extends munit.FunSuite {
     board2.Play(player4, card6)
 
     board1.Play(player1, card3)
-    assertEquals(player2.boardSection.close(1).currentPower, 1) // card7
-    assertEquals(player1.boardSection.close(1).currentPower, 1) // card11
-    assertEquals(player2.boardSection.close(1).weatherEffect, 1)
-    assertEquals(player1.boardSection.close(1).weatherEffect, 1)
+    assertEquals(player2.boardSection.close.head.currentPower, 1) // card7
+    assertEquals(player1.boardSection.close.head.currentPower, 1) // card11
+    assertEquals(player2.boardSection.close.head.weatherEffect, 1)
+    assertEquals(player1.boardSection.close.head.weatherEffect, 1)
 
     board2.Play(player4, card3)
-    assertEquals(player3.boardSection.close(1).currentPower, 1) // card14
-    assertEquals(player4.boardSection.close(1).currentPower, 1) // card6
-    assertEquals(player3.boardSection.close(1).weatherEffect, 1)
-    assertEquals(player4.boardSection.close(1).weatherEffect, 1)
+    assertEquals(player3.boardSection.close.head.currentPower, 1) // card14
+    assertEquals(player4.boardSection.close.head.currentPower, 1) // card6
+    assertEquals(player3.boardSection.close.head.weatherEffect, 1)
+    assertEquals(player4.boardSection.close.head.weatherEffect, 1)
   }
 
   test("Impenetrable Fog") {
@@ -305,16 +305,16 @@ class EffectTest extends munit.FunSuite {
     board2.Play(player4, card6)
 
     board1.Play(player2, card4)
-    assertEquals(player2.boardSection.ranged(1).currentPower, 1) // card25
-    assertEquals(player1.boardSection.ranged(1).currentPower, 1) // card22
-    assertEquals(player2.boardSection.ranged(1).weatherEffect, 1)
-    assertEquals(player1.boardSection.ranged(1).weatherEffect, 1)
+    assertEquals(player2.boardSection.ranged.head.currentPower, 1) // card25
+    assertEquals(player1.boardSection.ranged.head.currentPower, 1) // card22
+    assertEquals(player2.boardSection.ranged.head.weatherEffect, 1)
+    assertEquals(player1.boardSection.ranged.head.weatherEffect, 1)
 
     board2.Play(player4, card4)
-    assertEquals(player3.boardSection.ranged(1).currentPower, 1) // card18
-    assertEquals(player4.boardSection.ranged(1).currentPower, 1) // card28
-    assertEquals(player3.boardSection.ranged(1).weatherEffect, 1)
-    assertEquals(player4.boardSection.ranged(1).weatherEffect, 1)
+    assertEquals(player3.boardSection.ranged.head.currentPower, 1) // card18
+    assertEquals(player4.boardSection.ranged.head.currentPower, 1) // card28
+    assertEquals(player3.boardSection.ranged.head.weatherEffect, 1)
+    assertEquals(player4.boardSection.ranged.head.weatherEffect, 1)
   }
 
   test("Clear Weather") {
@@ -333,12 +333,12 @@ class EffectTest extends munit.FunSuite {
 
     board1.Play(player1, card1)
 
-    assertEquals(player2.boardSection.ranged(1).weatherEffect, 0)
+    assertEquals(player2.boardSection.ranged.head.weatherEffect, 0)
 
 
     board2.Play(player3, card1)
 
-    assertEquals(player4.boardSection.ranged(1).weatherEffect, 0)
+    assertEquals(player4.boardSection.ranged.head.weatherEffect, 0)
   }
 
 }
