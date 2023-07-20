@@ -254,6 +254,11 @@ class GameController extends Observer[FinalGemCount] {
    * @author Felipe Alfaro
    */
   def PassPlayer(): Unit = {
+    if (_currentPlayer != player) {
+      throw new InvalidMethodException(
+        s"It's the computer's turn, not yours"
+      )
+    }
     _previousPlayer = player
     _currentPlayer = computer
     state.pass()
@@ -288,6 +293,11 @@ class GameController extends Observer[FinalGemCount] {
    * @author Felipe Alfaro
    */
   def PassComputer(): Unit = {
+    if (_currentPlayer != computer) {
+      throw new InvalidMethodException(
+        s"It's the player's turn, not yours"
+      )
+    }
     _previousPlayer = computer
     _currentPlayer = player
     state.pass()
