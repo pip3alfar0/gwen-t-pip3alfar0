@@ -56,4 +56,13 @@ class BoardSection(var ranged: List[RangedCombatCard] = List(), var siege: List[
     card.effect(card, close)
   }
   
+  override def equals(obj: Any): Boolean = {
+    if (obj.isInstanceOf[BoardSection]) {
+      val other = obj.asInstanceOf[BoardSection]
+      (this eq other) || siege == other.siege && ranged == other.ranged && close == other.close
+    } else {
+      false
+    }
+  }
+  
 }
