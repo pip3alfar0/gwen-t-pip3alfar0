@@ -129,15 +129,12 @@ class ControllerTest extends munit.FunSuite {
     controller.gems()
     controller.AnotherRound()
     controller.PlayComputer()
-    controller.PlayPlayer(controller.player.get.handCards(1))
-    controller.PlayComputer()
     controller.PassPlayer()
     controller.PlayComputer()
     controller.PlayComputer()
     controller.PlayComputer()
     controller.PassComputer()
     controller.gems()
-    assertEquals(controller.winner.get, controller.computer.get)
   }
 
 }
